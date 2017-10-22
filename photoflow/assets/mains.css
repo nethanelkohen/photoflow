@@ -1,0 +1,311 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway);
+body {
+  margin: 0;
+  padding:0;
+}
+html{
+  margin: 0;
+  padding:0;
+}
+@import url(https://fonts.googleapis.com/css?family=Raleway);
+/*Css for navbar*/
+.link-1 {
+  transition: 0.3s ease;
+  background: #3fa46a;
+  color: #ffffff;
+  font-size: 20px;
+  text-decoration: none;
+  border-top: 4px solid #3fa46a;
+  border-bottom: 4px solid #3fa46a;
+  padding: 20px 0;
+  margin: 0 20px;
+}
+.link-1:hover {
+  border-top: 4px solid #ffffff;
+  border-bottom: 4px solid #ffffff;
+  padding: 6px 0;
+}
+
+nav {
+  margin-top: 0px;
+  padding: 24px 0 ;
+  text-align: center;
+  font-family: Raleway;
+  /*box-shadow: 2px 0px 8px rgba(0, 0, 0, 0.5);*/
+}
+#nav-1 {
+  background: #3fa46a;
+}
+#nav-1 a{
+  text-decoration: none;
+}
+
+.link-1 {
+  transition: 0.3s ease;
+  background: #3fa46a;
+  color: #ffffff;
+  font-size: 20px;
+  text-decoration: none;
+  border-top: 4px solid #3fa46a;
+  border-bottom: 4px solid #3fa46a;
+  padding: 20px 0;
+  margin: 0 20px;
+}
+.link-1:hover {
+  border-top: 4px solid #ffffff;
+  border-bottom: 4px solid #ffffff;
+  padding: 6px 0;
+}
+
+
+/*css for feed*/
+
+.feedcontainer{
+  margin: 20px auto;
+  width: 85%;
+  border: 1px solid rgba(0, 198, 255, 0.5) ;
+  /*padding: 10px;*/
+  background-color: white;
+  /*box-shadow: 0px 0px 20px 0px rgba(0, 198, 255, 0.5);*/
+}
+.maincontainer{
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+
+  -webkit-flex-flow: row wrap;
+  justify-content: flex-start;
+}
+
+.userimage{
+  width:55px;
+  height:55px;
+  margin-left:5px;
+  margin-top:5px;
+  border-radius: 50px;
+}
+.username{
+  margin-left:15px;
+  margin-top:5px;
+}
+.postimagecontainer{
+  margin-top: 10px;
+  width:100%;
+}
+.postimage{
+  width:100%;
+}
+.postlikecontainer{
+  margin-top: 10px ;
+  width:100%;
+  padding-left:10px;
+
+}
+
+.captioncontainer{
+  margin-top: 10px;
+  width:100%;
+  padding: 0 10px;
+}
+.profilecontainer{
+  margin-top: 10px;
+  width:100%;
+  padding: 0 10px;
+  text-align: center;
+}
+.captiontext{
+  font-family: sans-serif;
+  font-size: 16px;
+}
+
+.commentbox{
+  margin-top: 10px;
+  width:100%;
+  padding: 0 10px;
+}
+.commenttext{
+  /*border-top: 1px dashed rgba(0, 198, 255, 0.5) ;*/
+  font-family: sans-serif;
+  font-size: 16px;
+}
+.commentinput{
+  width:150px;
+  height: 50px;;
+}
+ul{
+  padding-left:10px;
+  text-decoration: none;
+  list-style: none;
+}
+.fa{
+  margin: 0 10px;
+}
+
+/*css for profile*/
+
+.profileimagecontainer{
+  margin-top: 10px;
+  width:100%;
+}
+.myprofileimage{
+  width: 100px;
+  height: 100px;
+  margin:auto;
+  border-radius: 200px;
+}
+.userpost{
+  width: 100%;
+  margin:20px auto;
+  border-radius: 200px;
+}
+.userpostUL{
+  padding:0 !important;
+  width:100%;
+  margin: auto;
+  list-style: none;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row wrap;
+  justify-content: center;
+}
+.userpost li{
+  background: tomato;
+  padding: 5px;
+  width: 100px;
+  height: 100px;
+  margin: 5px ;
+  line-height: 150px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+.deletedialog{
+  display:none;
+}
+
+
+/*CSS for upload*/
+
+.uploadform{
+  /*width:200px;*/
+  margin: auto;
+}
+
+
+.file-upload {
+  background-color: #ffffff;
+  /*width: 600px;*/
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.file-upload-btn {
+  width: 100%;
+  margin: 0;
+  color: #fff;
+  background: #1FB264;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #15824B;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.file-upload-btn:hover {
+  background: #1AA059;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+.file-upload-btn:active {
+  border: 0;
+  transition: all .2s ease;
+}
+
+.file-upload-content {
+  display: none;
+  text-align: center;
+}
+
+.file-upload-input {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.image-upload-wrap {
+  margin-top: 20px;
+  border: 4px dashed #1FB264;
+  position: relative;
+}
+
+.image-dropping,
+.image-upload-wrap:hover {
+  background-color: #1FB264;
+  border: 4px dashed #ffffff;
+}
+
+.image-title-wrap {
+  padding: 15px 0 ;
+  color: #222;
+}
+
+.drag-text {
+  padding:0 10px;
+  text-align: center;
+}
+
+.drag-text h3 {
+  font-weight: 100;
+  text-transform: uppercase;
+  color: #15824B;
+  padding: 60px 0;
+}
+
+.file-upload-image {
+  max-height: 200px;
+  max-width: 200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.send-image {
+  width: 100%;
+  margin: 0;
+  color: #fff;
+  background: #cd4535;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #b02818;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.send-image:hover {
+  background: #c13b2a;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+.send-image:active {
+  border: 0;
+  transition: all .2s ease;
+}
