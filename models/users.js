@@ -23,4 +23,17 @@ User.hasMany(Comments);
 Comments.belongsTo(User);
 Photos.belongsTo(User);
 
+
+User.signup = function(req){
+	return User.create({
+		username: req.body.username,
+		password: req.body.password,
+	})
+	.then(function(user){
+		req.session.userid = user.id;
+		return user;
+	});
+};
+
+
 module.exports = Users;
