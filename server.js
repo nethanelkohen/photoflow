@@ -1,9 +1,19 @@
 var express = require('express');
 var app = express();
-// var pg = require('pg');
 var bodyParser = require('body-parser');
-// var Posts = require("./models/models.js");
+var sql = require('./utility/sql.js');
 
+// cookies package, express-session?
+
+// require authentication middleware
+
+
+// routes
+var photoRoutes = require("./Routes/photos.js");
+var userRoutes = require("./Routes/users.js");
+var apiRoutes = require("./Routes/api.js");
+
+// middelware
 app.set('view engine', 'pug');
 app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({
@@ -11,22 +21,33 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-app.get('/', function(request, response){
+// include additional middleware?
+
+// render index
+app.get('/', function(request, response) {
   response.render('homepage');
 });
 
-app.get('/profile', function(request, response){
-  response.render('profile');
+// render api routes
+app.use("/api", apiRoutes);
+
+// render all user routes
+app.use("/users", userRoutes);
+
+// render photo routes
+app.use("/photos", photoRoutes);
+
+// catch 404 error
+app.get("*", function(req, res) {
+  res.send('404 error');
 });
 
-app.get('/upload', function(request, response){
-  response.render('upload');
-});
+// set up database and server
+sql.sync().then(function() {
+  console.log("Database ready");
+  var port = process.env.PORT || 3000;
 
-app.get('*', function(request, response){
-  response.render('404');
+  app.listen(port, function() {
+    console.log("Listening at " + port);
+  });
 });
-
-app.listen(process.env.PORT || 3000, function() {
-	console.log("Your server is available at localhost:3000!");
-	});

@@ -1,5 +1,8 @@
 var sql = require("../utility/sql");
 var Sequelize = require("sequelize");
+var User = require("./user.js");
+var Comments = require("./comments.js");
+var Likes = require("./likes.js");
 
 var Photos = sql.define("photo", {
 	id: {
@@ -28,8 +31,8 @@ var Photos = sql.define("photo", {
 	},
 });
 
-Photos.belongsTo(Users);
-Photos.hasMany(Comments);
-Photos.hasMany(Likes);
+// Photos.belongsTo(User);
+// Photos.hasMany(Comments);
+// Photos.hasMany(Likes);
 
 module.exports = Photos;

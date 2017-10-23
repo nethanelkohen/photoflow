@@ -1,7 +1,10 @@
 var Sequelize = require("sequelize");
 var sql = require("../utility/sql");
+var Photos = require("./photos.js");
+var Comments = require("./comments.js");
+var Likes = require("./likes.js");
 
-var Users = sql.define("user", {
+var User = sql.define("user", {
 	id: {
 		type: Sequelize.INTEGER,
 		autoIncrement: true,
@@ -18,10 +21,10 @@ var Users = sql.define("user", {
 	}
 });
 
-User.hasMany(Photos);
-User.hasMany(Comments);
-Comments.belongsTo(User);
-Photos.belongsTo(User);
+// User.hasMany(Photos);
+// User.hasMany(Comments);
+// Comments.belongsTo(User);
+// Photos.belongsTo(User);
 
 
 User.signup = function(req){
@@ -36,4 +39,4 @@ User.signup = function(req){
 };
 
 
-module.exports = Users;
+module.exports = User;
