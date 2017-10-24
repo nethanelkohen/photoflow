@@ -14,6 +14,7 @@ var apiRoutes = require("./Routes/api.js");
 
 // middelware
 app.set('view engine', 'pug');
+app.set('views', './views');
 app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({
   extended: true
