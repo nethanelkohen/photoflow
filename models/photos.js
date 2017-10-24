@@ -38,8 +38,8 @@ var Photos = sql.define("photo", {
 	},
 });
 
-Photos.belongsTo(User);
-Photos.hasMany(Comments);
-Photos.hasMany(Likes);
+// Photos.belongsTo(User);
+// Photos.hasMany(Comments);
+// Photos.hasMany(Likes);
 
 module.exports = Photos;

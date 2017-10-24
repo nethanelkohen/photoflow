@@ -27,6 +27,9 @@ app.use(bodyParser.json());
 app.get('/', function(req, res) {
   res.render('homepage');
 });
+app.get('/upload', function(req, res) {
+  res.render('upload');
+});
 
 // render api routes
 app.use("/api", apiRoutes);

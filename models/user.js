@@ -21,10 +21,10 @@ var User = sql.define("user", {
 	}
 });
 
-User.hasMany(Photos);
-User.hasMany(Comments);
-Comments.belongsTo(User);
-Photos.belongsTo(User);
+// User.hasMany(Photos);
+// User.hasMany(Comments);
+// Comments.belongsTo(User);
+// Photos.belongsTo(User);
 
 // user sign up
 User.signup = function(req){
