@@ -10,6 +10,10 @@ router.get("/signup", function(req, res, error) {
 	renderUserTemp(res, "signup", "Signup", {
 	});
 });
+router.get('/register', function(req, res) {
+  res.render('register');
+});
+
 
 // render sign up
 router.post("/signup", function(req, res) {

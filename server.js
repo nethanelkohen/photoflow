@@ -25,10 +25,7 @@ app.use(bodyParser.json());
 
 // render index
 app.get('/', function(req, res) {
-  res.render('homepage');
-});
-app.get('/upload', function(req, res) {
-  res.render('upload');
+  res.render('home');
 });
 
 // render api routes
