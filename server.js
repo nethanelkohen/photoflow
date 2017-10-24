@@ -7,7 +7,6 @@ var sql = require('./utility/sql.js');
 
 // require authentication middleware
 
-
 // routes
 var photoRoutes = require("./Routes/photos.js");
 var userRoutes = require("./Routes/users.js");
@@ -24,8 +23,8 @@ app.use(bodyParser.json());
 // include additional middleware?
 
 // render index
-app.get('/', function(request, response) {
-  response.render('homepage');
+app.get('/', function(req, res) {
+  res.render('homepage');
 });
 
 // render api routes
