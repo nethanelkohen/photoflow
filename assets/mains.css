@@ -309,3 +309,11 @@ ul{
   border: 0;
   transition: all .2s ease;
 }
+
+.registerForm{
+  width: 400px;
+  margin: 10px auto;
+}
+.placeholder{
+  width:100%
+}

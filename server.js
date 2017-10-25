@@ -8,9 +8,9 @@ var sql = require('./utility/sql.js');
 // require authentication middleware
 
 // routes
-var photoRoutes = require("./Routes/photos.js");
-var userRoutes = require("./Routes/users.js");
-var apiRoutes = require("./Routes/api.js");
+var photoRoutes = require("./routes/photos.js");
+var userRoutes = require("./routes/users.js");
+var apiRoutes = require("./routes/api.js");
 
 // middelware
 app.set('view engine', 'pug');
@@ -27,7 +27,31 @@ app.use(bodyParser.json());
 app.get('/', function(req, res) {
   res.render('home');
 });
+// render login
 
+app.get('/login', function(req, res) {
+  res.render('login');
+});
+// render register
+
+app.get('/register', function(req, res) {
+  res.render('register');
+});
+
+// render profile stuff
+app.get('/gallery', function(req, res) {
+  res.render('gallery');
+});
+// render profile
+
+app.get('/profile', function(req, res) {
+  res.render('profile');
+});
+// render upload form
+
+app.get('/upload', function(req, res) {
+  res.render('upload');
+});
 // render api routes
 app.use("/api", apiRoutes);
 
@@ -41,6 +65,30 @@ app.use("/photos", photoRoutes);
 app.get("*", function(req, res) {
   res.send('404 error');
 });
+
+
+
+app.post("/register", function(req, res) {
+    User.create({
+        username: req.body.username,
+        password: req.body.password
+    })
+    // .then(function(user) {
+    //     req.session.userid = user.id;
+    //     res.redirect("/home");
+    // })
+    // .catch(function(err) {
+    //     console.log(err);
+    //     renderTemplate(req, res, "Signup", "signup", {
+    //         error: "Invalid username or password",
+    //     });
+    // });
+});
+
+
+
+
+
 
 // set up database and server
 sql.sync().then(function() {
