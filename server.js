@@ -5,24 +5,20 @@ var path = require('path');
 var Sequelize= require("sequelize");
 var connection = require('./utility/sql.js');
 var Comments = require('./models/comments.js');
-var cookieParser = require('cookieparser');
-var session = require('express-session');
 var app = express();
 
-// cookies package,
 
 // require authentication middleware
 
 // routes
 var photoRoutes = require("./routes/photos.js");
 var userRoutes = require("./routes/users.js");
-var apiRoutes = require("./routes/api.js");
+// var apiRoutes = require("./routes/api.js");
 var indexroute = require("./routes/index.js");
 
 
 
-const userID = 001;
-// middelware
+// middleware
 app.set('view engine', 'pug');
 app.set('views', './views');
 app.use(express.static(__dirname));
@@ -33,20 +29,10 @@ app.use(bodyParser.urlencoded({
 app.set(express.static('./public'));
 
 
-// express-session
-
-//express validator
-
-//connect flash
-
-//global vars
-
-
-
 
 //set storage
 const storage = multer.diskStorage({
-  destination: './public/uploads/' + userID,
+  destination: './public/uploads/',
   filename : function(req,file,cb){
     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
   }
@@ -79,11 +65,10 @@ app.post('/uploads', function(req, res) {
 
 
 
-// render profile stuff
 
 
-// render api routes
-app.use("/api", apiRoutes);
+// // render api routes
+// app.use("/api", apiRoutes);
 
 
 // catch 404 error

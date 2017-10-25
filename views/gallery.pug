@@ -3,14 +3,12 @@ head
   body    
     include profilenav.pug
     div.feedcontainer
-      - for (var i = postData.length - 1; i >= 0; --i) {
-        
         div.maincontainer
           div.userimage
             img(class="userimage" src="images/sample.jpg")
           div.username
             span.captiontext
-              h3= postData[i].username
+              // h3= postData[i].username
             
           div.postimagecontainer
             img(class="postimage" src="/public/uploads/myImage-1508949361685.jpg")
@@ -22,16 +20,14 @@ head
               input(class="submitinput" type="submit")
             
           div.captioncontainer
-            span.captiontext= postData[i].username
-            span.captiontext= postData[i].description
+            // span.captiontext= postData[i].username
+            // span.captiontext= postData[i].description
           // div.commentbox
           //   ul
           //   - for (var i = commentData.length - 1; i >= 0; --i) {
           //       li.commenttext=commentData[i].text
           //   - }  
-          
-          
-      - }
+
       
           
 

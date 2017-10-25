@@ -1,7 +1,7 @@
 var Sequelize = require("sequelize");
 var connection = require("../utility/sql");
 
-const User = connection.define("users", {
+const User = connection.define("user", {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -19,44 +19,6 @@ const User = connection.define("users", {
 }, {
   timestamps: false
 });
-
-// const Comments = connection.define("users", {
-//   id: {
-//     type: Sequelize.INTEGER,
-//     autoIncrement: true,
-//     primaryKey: true,
-//   },
-//   username: {
-//     type: Sequelize.STRING(100),
-//     notNull: true,
-//     unique: true,
-//   },
-//   password: {
-//     type: Sequelize.STRING(1000),
-//     notNull: true,
-//   }
-// }, {
-//   timestamps: false
-// });
-
-
-
-// var User = sql.define("user", {
-// 	id: {
-// 		type: Sequelize.INTEGER,
-// 		autoIncrement: true,
-// 		primaryKey: true,
-// 	},
-// 	username: {
-// 		type: Sequelize.STRING(100),
-// 		notNull: true,
-// 		unique: true,
-// 	},
-// 	password: {
-// 		type: Sequelize.STRING(1000),
-// 		notNull: true,
-// 	}
-// });
 
 // User.hasMany(Photos);
 // User.hasMany(Comments);
