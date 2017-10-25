@@ -47,7 +47,7 @@ router.post("/submit", function(req, res) {
     })
     .then(function() {
         // req.session.userid = user.id;
-        res.redirect("/user");
+        res.redirect("/user/gallery");
     })
     .catch(function(err) {
         res.send('404');

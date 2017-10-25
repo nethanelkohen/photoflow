@@ -59,7 +59,7 @@ app.post('/uploads', function(req, res) {
       });
     } else {
       console.log(req.file);
-      res.send('test');
+      res.render('gallery');
     }
   });});
 
