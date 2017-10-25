@@ -3,6 +3,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var Sequelize= require("sequelize");
 var connection = require('./utility/sql.js');
+var Comments = require('./models/comments.js');
 
 // cookies package, express-session?
 
@@ -49,6 +50,7 @@ const User = connection.define("users", {
 
 
 
+
 // include additional middleware?
 
 // render index
@@ -69,11 +71,11 @@ app.get('/register', function(req, res) {
 // render profile stuff
 app.get('/gallery', function(req, res) {
   User.findAll().then(function(rows){
-
-
-
-       res.render('gallery',{databaseDATA:rows});
+    Comments.findAll().then(function(commentrows){
+       res.render('gallery',{userData:rows,commentData:commentrows});
      });
+  });
+
 });
 // render profile
 
@@ -104,6 +106,18 @@ app.post("/submit", function(req, res) {
     User.create({
         username: req.body.username,
         password: req.body.password
+    })
+    .then(function() {
+        // req.session.userid = user.id;
+        res.redirect("/gallery");
+    })
+    .catch(function(err) {
+        res.send('404');
+    });
+});
+app.post("/commentsubmit", function(req, res) {
+    Comments.create({
+        text: req.body.textarea
     })
     .then(function() {
         // req.session.userid = user.id;

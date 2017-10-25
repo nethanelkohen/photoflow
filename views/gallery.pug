@@ -3,29 +3,31 @@ head
   body    
     include profilenav.pug
     div.feedcontainer
-      - for (var i = databaseDATA.length - 1; i >= 0; --i) {
+      - for (var i = userData.length - 1; i >= 0; --i) {
         
         div.maincontainer
           div.userimage
             img(class="userimage" src="images/sample.jpg")
           div.username
-            h3= databaseDATA[i].username
+            h3= userData[i].username
           div.postimagecontainer
             img(class="postimage" src="images/sample.jpg")
           div.postlikecontainer
             i(class="fa fa-heart fa-2x" aria-hidden="true")
             i(class="fa fa-comment fa-2x" aria-hidden="true")
-            input(class="commentinput" placeholder="Enter your comment")
+            form(action='/commentsubmit' method='POST')
+              input(class="commentinput" name="textarea" placeholder="Enter your comment")
+              input(class="submitinput" type="submit")
+            
           div.captioncontainer
-            span.captiontext Lester #coffeeshop
+            span.captiontext= userData[i].username
           div.commentbox
             ul
-              li.commenttext John i hate this place
-            ul
-              li.commenttext Nate i Love NYCDA coffee
-            ul
-              li.commenttext Jovan i love this place
-            
+            - for (var i = commentData.length - 1; i >= 0; --i) {
+                li.commenttext=commentData[i].text
+            - }  
+          
+          
       - }
       
           
