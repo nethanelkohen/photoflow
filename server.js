@@ -68,7 +68,7 @@ app.get("*", function(req, res) {
 
 
 
-app.post("/register", function(req, res) {
+app.post("/submit", function(req, res) {
     User.create({
         username: req.body.username,
         password: req.body.password
