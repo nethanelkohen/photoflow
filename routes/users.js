@@ -1,10 +1,39 @@
 var express = require("express");
 var router = express.Router();
+var Sequelize= require("sequelize");
+var connection = require('../utility/sql.js');
+
 // require models
-var comments = require('../models/comments.js');
+var Comments = require('../models/comments.js');
 var likes = require('../models/likes.js');
 var photos = require('../models/photos.js');
-var users = require('../models/user.js');
+var User = require('../models/user.js');
+var Post = require('../models/post.js');
+
+var loggeduser = "lester"
+
+router.get('/', function(req,res){
+  Post.findAll({ where: {username: loggeduser} }).then(function(rows){
+        console.log(rows);
+       res.render('profile',{postData:rows});
+  });
+})
+
+
+router.get('/upload', function(req, res) {
+  res.render('upload');
+});
+
+router.get('/feed', function(req, res) {
+  Post.findAll().then(function(rows){
+        console.log(rows);
+       res.render('gallery',{postData:rows});
+  });
+
+});
+
+
+
 
 // router.get("/signup", function(req, res, error) {
 // 	renderUserTemp(res, "signup", "Signup", {

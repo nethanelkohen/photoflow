@@ -4,17 +4,19 @@ head
     include profilenav.pug
     div.feedcontainer
       div.maincontainer
-        form(class="uploadform" method="POST")
+        form(class="uploadform" action="/uploads" enctype="multipart/form-data" method="POST")
+          input( placeholder="entertitile" type='text' name="posttitle")
           div.file-upload
-            button(class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )") Upload
+            button(class="file-upload-btn" type="button"  onclick="$('.file-upload-input').trigger( 'click' )") Upload
           div.image-upload-wrap
-            input(class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*")
+            input(class="file-upload-input" type='file' name="myImage" onchange="readURL(this);" accept="image/*")
             div.drag-text
               h3 Drag and drop a file or select add Image
           div.file-upload-content
             img(class="file-upload-image" src="#" alt="your image")
+        
           div.image-title-wrap
-            button(type="button" onclick="removeUpload()" class="send-image") SEND
+            button(type="submit" onclick="removeUpload()" class="send-image") SEND
              
                  
               

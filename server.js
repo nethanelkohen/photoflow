@@ -1,11 +1,15 @@
 var express = require('express');
-var app = express();
 var bodyParser = require('body-parser');
+var multer = require('multer');
+var path = require('path');
 var Sequelize= require("sequelize");
 var connection = require('./utility/sql.js');
 var Comments = require('./models/comments.js');
+var cookieParser = require('cookieparser');
+var session = require('express-session');
+var app = express();
 
-// cookies package, express-session?
+// cookies package,
 
 // require authentication middleware
 
@@ -13,88 +17,74 @@ var Comments = require('./models/comments.js');
 var photoRoutes = require("./routes/photos.js");
 var userRoutes = require("./routes/users.js");
 var apiRoutes = require("./routes/api.js");
+var indexroute = require("./routes/index.js");
 
 
 
-
+const userID = 001;
 // middelware
 app.set('view engine', 'pug');
 app.set('views', './views');
 app.use(express.static(__dirname));
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-app.use(bodyParser.json());
+app.set(express.static('./public'));
 
-const User = connection.define("users", {
-  id: {
-    type: Sequelize.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
-  username: {
-    type: Sequelize.STRING(100),
-    notNull: true,
-    unique: true,
-  },
-  password: {
-    type: Sequelize.STRING(1000),
-    notNull: true,
+
+// express-session
+
+//express validator
+
+//connect flash
+
+//global vars
+
+
+
+
+//set storage
+const storage = multer.diskStorage({
+  destination: './public/uploads/' + userID,
+  filename : function(req,file,cb){
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
   }
-}, {
-  timestamps: false
 });
 
+//start upload based on name field
+const upload = multer({
+  storage:storage
+}).single('myImage');
 
 
 
+//render non logged in home
+app.use('/', indexroute);
+
+//render users
+app.use('/user', userRoutes);
+
+app.post('/uploads', function(req, res) {
+  upload(req,res, (err) => {
+    if(err){
+      res.render('upload',{
+        msg: err
+      });
+    } else {
+      console.log(req.file);
+      res.send('test');
+    }
+  });});
 
 
-
-// include additional middleware?
-
-// render index
-app.get('/', function(req, res) {
-  res.render('home');
-});
-// render login
-
-app.get('/login', function(req, res) {
-  res.render('login');
-});
-// render register
-
-app.get('/register', function(req, res) {
-  res.render('register');
-});
 
 // render profile stuff
-app.get('/gallery', function(req, res) {
-  User.findAll().then(function(rows){
-    Comments.findAll().then(function(commentrows){
-       res.render('gallery',{userData:rows,commentData:commentrows});
-     });
-  });
 
-});
-// render profile
 
-app.get('/profile', function(req, res) {
-  res.render('profile');
-});
-// render upload form
-
-app.get('/upload', function(req, res) {
-  res.render('upload');
-});
 // render api routes
 app.use("/api", apiRoutes);
 
-// render all user routes
-app.use("/users", userRoutes);
-
-// render photo routes
-app.use("/photos", photoRoutes);
 
 // catch 404 error
 app.get("*", function(req, res) {
@@ -102,31 +92,7 @@ app.get("*", function(req, res) {
 });
 
 
-app.post("/submit", function(req, res) {
-    User.create({
-        username: req.body.username,
-        password: req.body.password
-    })
-    .then(function() {
-        // req.session.userid = user.id;
-        res.redirect("/gallery");
-    })
-    .catch(function(err) {
-        res.send('404');
-    });
-});
-app.post("/commentsubmit", function(req, res) {
-    Comments.create({
-        text: req.body.textarea
-    })
-    .then(function() {
-        // req.session.userid = user.id;
-        res.redirect("/gallery");
-    })
-    .catch(function(err) {
-        res.send('404');
-    });
-});
+
 
 
 
