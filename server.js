@@ -68,7 +68,12 @@ app.get('/register', function(req, res) {
 
 // render profile stuff
 app.get('/gallery', function(req, res) {
-  res.render('gallery');
+  User.findAll().then(function(rows){
+
+
+
+       res.render('gallery',{databaseDATA:rows});
+     });
 });
 // render profile
 
