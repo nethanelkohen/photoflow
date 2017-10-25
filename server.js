@@ -1,7 +1,8 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var sql = require('./utility/sql.js');
+var Sequelize= require("sequelize");
+var connection = require('./utility/sql.js');
 
 // cookies package, express-session?
 
@@ -12,6 +13,9 @@ var photoRoutes = require("./routes/photos.js");
 var userRoutes = require("./routes/users.js");
 var apiRoutes = require("./routes/api.js");
 
+
+
+
 // middelware
 app.set('view engine', 'pug');
 app.set('views', './views');
@@ -20,6 +24,30 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
+
+const User = connection.define("users", {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  username: {
+    type: Sequelize.STRING(100),
+    notNull: true,
+    unique: true,
+  },
+  password: {
+    type: Sequelize.STRING(1000),
+    notNull: true,
+  }
+}, {
+  timestamps: false
+});
+
+
+
+
+
 
 // include additional middleware?
 
@@ -67,31 +95,25 @@ app.get("*", function(req, res) {
 });
 
 
-
 app.post("/submit", function(req, res) {
     User.create({
         username: req.body.username,
         password: req.body.password
     })
-    // .then(function(user) {
-    //     req.session.userid = user.id;
-    //     res.redirect("/home");
-    // })
-    // .catch(function(err) {
-    //     console.log(err);
-    //     renderTemplate(req, res, "Signup", "signup", {
-    //         error: "Invalid username or password",
-    //     });
-    // });
+    .then(function() {
+        // req.session.userid = user.id;
+        res.redirect("/gallery");
+    })
+    .catch(function(err) {
+        res.send('404');
+    });
 });
 
 
 
 
-
-
 // set up database and server
-sql.sync().then(function() {
+connection.sync().then(function() {
   console.log("Database ready");
   var port = process.env.PORT || 3000;
 
