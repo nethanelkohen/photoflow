@@ -1,5 +1,11 @@
 var Sequelize = require("sequelize");
 var connection = require("../utility/sql");
+var fs = require("fs-extra");
+var path = require("path");
+var Photos = require("./photos.js");
+var Comments = require("./comments");
+var imagePath = "public/uploads/";
+var bodyParser = require("body-parser");
 
 const User = connection.define("user", {
   id: {
@@ -20,47 +26,40 @@ const User = connection.define("user", {
   timestamps: false
 });
 
-// User.hasMany(Photos);
-// User.hasMany(Comments);
-// Comments.belongsTo(User);
-// Photos.belongsTo(User);
 
-// user sign up
-// User.signup = function(req){
-// 	return User.create({
-// 		username: req.body.username,
-// 		password: req.body.password,
-// 	})
-// 	// below is used for deSerialize middleware
-// 	.then(function(user){
-// 		req.session.userid = user.id;
-// 		return user;
-// 	});
-// };
-//
-// // user log in
-// User.login = function(req) {
-// 	return User.findOne({
-// 			where: {
-// 				username: req.body.username,
-// 			},
-// 		})
-// 		.then(function(user) {
-// 			if (user) {
-// 				return user.comparePassword(req.body.password).then(function(valid) {
-// 					if (valid) {
-// 						req.session.userid = user.get("id");
-// 						return user;
-// 					}
-// 					else {
-// 						throw new Error("Incorrect password");
-// 					}
-// 				});
-// 			} else {
-// 				throw new Error("Username not found. Have you signed up for an account?");
-// 			}
-// 		});
-// };
+// this isn't working - not sure why
+// User.hasMany(Photos);
+User.hasMany(Comments);
+
+User.prototype.upload = function(file, req) {
+	return this.createFile({
+		id: file.filename,
+		size: file.size,
+		originalName: file.originalname,
+		mimeType: file.mimetype,
+		description: req.body.description,
+
+	})
+	.then(function() {
+		var ext = path.extname(file.originalname);
+		var dest = "public/uploads/" + file.filename + ext;
+		return fs.copy(file.path, dest);
+	})
+	// .then(function(req) {
+	// 	if (file.mimetype.includes("image/")) {
+	// 		Jimp.read(file.path).then(function(img) {
+	// 			img.quality(80);
+	// 			img.resize(Jimp.AUTO, 400);
+	// 			return img.write(imagePath + file.filename + ".jpg");
+	// 		})
+	// 	.then(function(img) {
+	// 		// create thumpnail
+	// 		img.cover(64,64);
+	// 		return img.write(imageTum + file.filename + ".jpg");
+	// 	});
+	// 	}
+	// });
+};
 
 
 module.exports = User;
