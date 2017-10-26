@@ -9,11 +9,12 @@ var likes = require('../models/likes.js');
 var Photos = require('../models/photos.js');
 var User = require('../models/user.js');
 
+router.get('/', function(req,res){
+  console.log(req.user);
+  console.log(req.isAuthenticated());
+       res.render('gallery');
+})
 
-// router.get('/', function(req,res){
-//        res.render('profile');
-// find user by id and populate pug profile template
-// })
 
 router.get('/upload', function(req, res) {
   res.render('upload');

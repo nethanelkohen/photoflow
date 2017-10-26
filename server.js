@@ -5,6 +5,8 @@ var path = require('path');
 var Sequelize = require("sequelize");
 var connection = require('./utility/sql.js');
 var Comments = require('./models/comments.js');
+var session = require('express-session');
+var passport = require('passport');
 var app = express();
 
 // might be needed to deploy on heroku

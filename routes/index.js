@@ -6,13 +6,15 @@ var connection = require('../utility/sql.js');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var expressValidator = require('express-validator');
+var bcrypt = require('bcrypt');
+const saltRounds = 10;
 var bodyParser = require('body-parser');
 // require models
 var comments = require('../models/comments.js');
 var likes = require('../models/likes.js');
 var photos = require('../models/photos.js');
 var User = require('../models/user.js');
-
+var passport = require('passport');
 var session = require("express-session"),
   bodyParser = require("body-parser");
 
@@ -93,51 +95,52 @@ router.get('/register', function(req, res) {
   res.render('register');
 });
 
-router.post('/register', function(req, res) {
-  var username = req.body.username;
-  var password = req.body.password;
-
-
-  // Validation
-
-  req.checkBody('username', 'Username is required').notEmpty();
-  req.checkBody('password', 'Password is required').notEmpty();
-
-  var errors = req.validationErrors();
-
-  if (errors) {
-    // create if statement for errors on pug views
-    res.render('register', {
+router.post('/register', function(req, res, next) {
+  req.checkBody('username', 'Username field cannot be empty.').notEmpty();
+  req.checkBody("password", "Password must include one lowercase character, one uppercase character, a number, and a special character.").matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.* )(?=.*[^a-zA-Z0-9]).{8,}$/, "i");
+  // req.checkBody('passwordmatch', 'Password must be between 8-100 characters long.').len(8, 100);
+  req.checkBody('passwordmatch', 'Passwords do not match, please try again.').equals(req.body.password);
+  const errors = req.validationErrors();
+  if (errors){
+    console.log(`errors: ${JSON.stringify(errors)}`);
+    res.render("register", {
+      title:"registration error",
       errors: errors
     });
-  } else {
-    User.create({
-        username: req.body.username,
-        password: req.body.password
-      })
-      .then(function() {
-        // req.session.userid = user.id;
-        res.redirect("/user/gallery");
-      })
-      .catch(function(err) {
-        res.render('register', {
-          errors2: err
-        });
-      });
+
+  } else{
+
+  const userName = req.body.username;
+  const passWord = req.body.password;
+
+var hash = bcrypt.hashSync(passWord, saltRounds);
+  User.create({
+      username: userName,
+      password: hash
+  }).then(function(results){
+    const user_id = results.id;
+    console.log(results.id);
+    req.login(user_id, function(err){
+      res.redirect('/user');
+    });
   }
+);
+    // req.login(result.id, function(err){
+    //   res.render('/users');
+    // })
+}
 });
 
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
-});
 
 router.post("/submit", function(req, res) {
 
+});
+
+passport.serializeUser(function(user_id, done) {
+  done(null, user_id);
+});
+
+passport.deserializeUser(function(user_id, done) {
+    done(null, user_id);
 });
 module.exports = router;

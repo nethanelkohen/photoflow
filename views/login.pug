@@ -2,15 +2,26 @@ head
   include head.pug
   body    
     include nav.pug
-    div.feedcontainer
-      div(class="maincontainer" style="background: red;")
-        form(action="/login" method="post" class="registerForm")
-          input(type="text" name="username" placeholder="Choose Username")
-          br  
-          input(type="password" name="password" placeholder="Choose Password")
-          br  
-          input(type="submit")
-        
+    div.registerForm
+      if errors
+        ul.errors
+          each error in errors
+            div(class="alert alert-danger")= error.msg
+      form(method="post" action="/register")
+        h3#emailHelp.form-text.text-muted Please Register
+        br
+        .form-group
+          label(for="exampleInputEmail1") Username
+          input#exampleInputEmail1.form-control(type="text", name="username", aria-describedby="emailHelp", placeholder="Enter username")
+        .form-group
+          label(for="exampleInputPassword1") Password
+          input#exampleInputPassword1.form-control(type="password",name="password", placeholder="Password")
+          br
+          input#exampleInputPassword1.form-control(type="password",name="passwordmatch", placeholder="Re enter password")
+
+        button.btn.btn-primary(type="submit") Submit
+          
+
           
 
   script(src="/js/main.js")
