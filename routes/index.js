@@ -11,30 +11,27 @@ var bodyParser = require('body-parser');
 var comments = require('../models/comments.js');
 var likes = require('../models/likes.js');
 var photos = require('../models/photos.js');
-var users = require('../models/user.js');
+var User = require('../models/user.js');
 
-
-
-
-
-const User = connection.define("users", {
-  id: {
-    type: Sequelize.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
-  username: {
-    type: Sequelize.STRING(100),
-    notNull: true,
-    unique: true,
-  },
-  password: {
-    type: Sequelize.STRING(1000),
-    notNull: true,
-  }
-}, {
-  timestamps: false
-});
+// EXTRA USER TABLE - USED IN MODELS/USER AS WELL
+// const User = connection.define("users", {
+//   id: {
+//     type: Sequelize.INTEGER,
+//     autoIncrement: true,
+//     primaryKey: true,
+//   },
+//   username: {
+//     type: Sequelize.STRING(100),
+//     notNull: true,
+//     unique: true,
+//   },
+//   password: {
+//     type: Sequelize.STRING(1000),
+//     notNull: true,
+//   }
+// }, {
+//   timestamps: false
+// });
 
 // BodyParser Middleware
 router.use(bodyParser.json());
@@ -137,6 +134,7 @@ router.post('/register', function(req, res){
     });
 	}
 });
+
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
