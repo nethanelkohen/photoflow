@@ -10,7 +10,9 @@ var passport = require('passport');
 var app = express();
 
 // might be needed to deploy on heroku
-const { Client } = require('pg');
+const {
+  Client
+} = require('pg');
 
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
@@ -53,14 +55,14 @@ app.set(express.static('./public'));
 //set storage
 const storage = multer.diskStorage({
   destination: './public/uploads/',
-  filename : function(req,file,cb){
+  filename: function(req, file, cb) {
     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
   }
 });
 
 //start upload based on name field
 const upload = multer({
-  storage:storage
+  storage: storage
 }).single('myImage');
 
 
@@ -72,16 +74,17 @@ app.use('/', indexroute);
 app.use('/user', userRoutes);
 
 app.post('/uploads', function(req, res) {
-  upload(req,res, (err) => {
-    if(err){
-      res.render('upload',{
+  upload(req, res, (err) => {
+    if (err) {
+      res.render('upload', {
         msg: err
       });
     } else {
       console.log(req.file);
       res.render('gallery');
     }
-  });});
+  });
+});
 
 
 

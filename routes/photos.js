@@ -10,6 +10,4 @@ var bodyParser = require("body-parser");
 var multer = require('multer');
 var jimp = require('jimp');
 
-
-
 module.exports = router;
