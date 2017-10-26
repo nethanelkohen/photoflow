@@ -2,7 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var multer = require('multer');
 var path = require('path');
-var Sequelize= require("sequelize");
+var Sequelize = require("sequelize");
 var connection = require('./utility/sql.js');
 var Comments = require('./models/comments.js');
 var app = express();
@@ -103,9 +103,7 @@ app.get("*", function(req, res) {
 // set up database and server
 connection.sync().then(function() {
   console.log("Database ready");
-  var port = process.env.PORT || 3000;
-
-  app.listen(port, function() {
-    console.log("Listening at " + port);
+  app.listen(process.env.PORT || 3000, function() {
+    console.log("Listening at 3000");
   });
 });
