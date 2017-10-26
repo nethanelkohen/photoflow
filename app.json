@@ -1,0 +1,6 @@
+{
+  "name": "PhotoFlow",
+  "description": "NYCDA PTWDI Instagram Clone",
+  "repository": "https://github.com/nethanelkohen/photoflow",
+  "keywords": ["node", "express", "static"]
+}
