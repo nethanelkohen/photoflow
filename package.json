@@ -1,11 +1,11 @@
 {
   "name": "photoflow",
   "version": "1.0.0",
-  "description": "",
+  "description": "photoflow",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
@@ -30,5 +30,20 @@
     "pug": "^2.0.0-rc.4",
     "sequelize": "^4.17.0",
     "sharp": "^0.18.4"
-  }
+  },
+  "engines": {
+    "node": "6.11.2",
+    "npm": "3.10.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nethanelkohen/photoflow"
+  },
+  "keywords": [
+  "node",
+  "heroku",
+  "express"
+],
+"author": "Lester Loor, Nethanel Kohen",
+"license": "ISC"
 }
