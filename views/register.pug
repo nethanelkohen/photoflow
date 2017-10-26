@@ -3,12 +3,13 @@ head
   body    
     include nav.pug
     div.addpostForm
-      form(action='/submit' method='POST')
-        input(type='text' placeholder="Title" name="username" id="id")
-        input(type='text' placeholder="Body" name="password" id="body")
+      form(action='/register' method='POST')
+        input(type='text' placeholder="Username" name="username" id="id")
+        input(type='password' placeholder="Password" name="password" id="body")
         //- input(type='text' placeholder="bodytext" name='bodytext')
         //- input(type='text' placeholder="image" name='image')
         button(type='submit') Submit
+        h3= error
         
           
 

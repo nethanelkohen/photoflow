@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 var Sequelize= require("sequelize");
 var connection = require('../utility/sql.js');
-
+var cookieParser = require('cookie-parser');
 // require models
 var Comments = require('../models/comments.js');
 var likes = require('../models/likes.js');
@@ -10,9 +10,9 @@ var Photos = require('../models/photos.js');
 var User = require('../models/user.js');
 
 
-router.get('/', function(req,res){
-       res.render('profile');
-})
+// router.get('/', function(req,res){
+//        res.render('profile');
+// })
 
 
 router.get('/upload', function(req, res) {

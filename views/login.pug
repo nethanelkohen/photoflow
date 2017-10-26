@@ -4,10 +4,10 @@ head
     include nav.pug
     div.feedcontainer
       div(class="maincontainer" style="background: red;")
-        form(class="registerForm")
-          input(placeholder="Choose Username")
+        form(action="/login" method="post" class="registerForm")
+          input(type="text" name="username" placeholder="Choose Username")
           br  
-          input(placeholder="Choose Password")
+          input(type="password" name="password" placeholder="Choose Password")
           br  
           input(type="submit")
         
