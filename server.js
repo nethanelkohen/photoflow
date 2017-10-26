@@ -13,7 +13,6 @@ var app = express();
 // routes
 var photoRoutes = require("./routes/photos.js");
 var userRoutes = require("./routes/users.js");
-// var apiRoutes = require("./routes/api.js");
 var indexroute = require("./routes/index.js");
 
 

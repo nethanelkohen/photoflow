@@ -1,8 +1,20 @@
 var Sequelize = require("sequelize");
 
 var sql;
-// DON'T CHANGE THIS - WE NEED IT FOR HEROKU, use
-// sql connection below
+/*
+
+
+
+
+DON'T CHANGE THIS - WE NEED IT FOR HEROKU, use sql connection below
+
+
+
+
+
+*/
+
+
 if (process.env.DATABASE_URL) {
 	sql = new Sequelize(process.env.DATABASE_URL);
 }

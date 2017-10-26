@@ -43,6 +43,7 @@ router.use(expressValidator({
     };
   }
 }));
+
 // get homepage
 passport.use(new LocalStrategy(
   function(username, password, done) {

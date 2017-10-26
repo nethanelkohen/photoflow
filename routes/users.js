@@ -12,8 +12,8 @@ var User = require('../models/user.js');
 
 // router.get('/', function(req,res){
 //        res.render('profile');
+// find user by id and populate pug profile template
 // })
-
 
 router.get('/upload', function(req, res) {
   res.render('upload');
@@ -24,9 +24,6 @@ router.get('/gallery', function(req, res) {
        res.render('gallery');
 
 });
-
-
-
 
 // router.get("/signup", function(req, res, error) {
 // 	renderUserTemp(res, "signup", "Signup", {
