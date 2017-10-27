@@ -48,5 +48,4 @@ router.get('/gallery', function(req, res) {
 
 });
 
-
 module.exports = router;

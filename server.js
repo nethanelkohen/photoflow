@@ -29,16 +29,12 @@ client.query('SELECT table_schema,table_name FROM information_schema.tables;', (
   client.end();
 });
 
-
-
 // require authentication middleware
 
 // routes
 var photoRoutes = require("./routes/photos.js");
 var userRoutes = require("./routes/users.js");
 var indexroute = require("./routes/index.js");
-
-
 
 // middleware
 app.set('view engine', 'pug');
@@ -49,8 +45,6 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.set(express.static('./public'));
-
-
 
 //set storage
 const storage = multer.diskStorage({
@@ -64,6 +58,47 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage
 }).single('myImage');
+
+app.post('/upload', function(req,res){
+  upload(req, res, function(err){
+    if (err){
+      return res.send('Error uploading file');
+    }
+    res.send('File uploaded');
+  });
+});
+
+// template
+// router.post("/upload", uploader.single("file"), function(req, res) {
+// // Make sure they sent a file
+//     if (!req.file || !req. file.mimetype.includes("image/")) {
+//             return renderTemplate(res, "upload", "Upload", {
+//                     username: req.user.get("username"),
+//                     id: req.user.get("id"),
+//                     error: "You must choose a photo to upload",
+//             });
+//     }
+//     // Otherwise, try an upload
+//     req.user.upload(req.file, req).then(function(photo) {
+//             res.redirect("preview/" + photo.get("id"));
+//     })
+//     .catch(function(err) {
+//             console.error("Something went wrong with upload", err);
+//             renderTemplate(res, "upload", "Upload", {
+//                     error: "Something went wrong, please try a different file",
+//             });
+//     });
+// });
+
+app.get('/gallery', function(req, res) {
+
+  // Photos.findAll().then(function(photorows){
+
+  res.render('gallery');
+
+
+
+});
 
 
 
@@ -86,24 +121,13 @@ app.post('/uploads', function(req, res) {
   });
 });
 
-
-
-
-
 // // render api routes
 // app.use("/api", apiRoutes);
-
 
 // catch 404 error
 app.get("*", function(req, res) {
   res.send('404 error');
 });
-
-
-
-
-
-
 
 // set up database and server
 connection.sync().then(function() {
