@@ -32,7 +32,7 @@ var Photos = sql.define("photo", {
 	},
 });
 
-Photos.belongsTo(User, {foreignKey: 'id'});
+// Photos.belongsTo(User, {foreignKey: 'id'});
 Photos.hasMany(Comments);
 Photos.hasMany(Likes);
 
