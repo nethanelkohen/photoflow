@@ -7,7 +7,10 @@ var connection = require('./utility/sql.js');
 var Comments = require('./models/comments.js');
 var session = require('express-session');
 var passport = require('passport');
-var app = express();
+var LocalStrategy = require('passport-local').Strategy;
+// initalize sequelize with session store
+var SequelizeStore = require('connect-session-sequelize')(session.Store);
+var User = require('./models/user.js');
 
 // might be needed to deploy on heroku
 const {
@@ -45,6 +48,13 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.set(express.static('./public'));
+
+app.use(session({
+  secret: "photoflow",
+  store: new SequelizeStore({
+    db: connection
+  })
+}));
 
 //set storage
 const storage = multer.diskStorage({
@@ -120,6 +130,20 @@ app.post('/uploads', function(req, res) {
     }
   });
 });
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    console.log(username);
+    console.log(password);
+    User.findOne({ where: {username: [username]} }).then(function(err,results) {
+      if(err) {done(err)};
+      console.log(results);
+      if(results === 0){
+          done(null,"ssssdd");
+      }
+      return done(null, "sss");
+    });
+
+  }));
 
 // // render api routes
 // app.use("/api", apiRoutes);

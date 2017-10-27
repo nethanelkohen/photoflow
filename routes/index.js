@@ -7,7 +7,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var expressValidator = require('express-validator');
 var bcrypt = require('bcrypt');
-var saltRounds = 10;
+const saltRounds = 10;
 var bodyParser = require('body-parser');
 // require models
 var comments = require('../models/comments.js');
@@ -72,22 +72,19 @@ passport.use(new LocalStrategy(
 ));
 
 router.get('/', function(req, res) {
+  console.log(req.user);
+  console.log(req.isAuthenticated());
   res.render('home');
-});
+})
 
 router.get('/login', function(req, res) {
   res.render('login');
 });
 
-router.post('/login',
-  passport.authenticate('local'),
-  function(req, res) {
-    // If this function gets called, authentication was successful.
-    // `req.user` contains the authenticated user.
-    res.redirect('/gallery', {
-      currentuser: username
-    });
-  });
+router.post('/login',passport.authenticate('local',{
+  successRedirect: '/user',
+  faileRedirect: '/login'
+}));
 
 // render register
 
@@ -97,43 +94,49 @@ router.get('/register', function(req, res) {
 
 router.post('/register', function(req, res, next) {
   req.checkBody('username', 'Username field cannot be empty.').notEmpty();
-  req.checkBody("password", "Password must include one lowercase character, one uppercase character, a number, and a special character.").matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.* )(?=.*[^a-zA-Z0-9]).{8,}$/, "i");
+  req.checkBody("password", "Password must be at least 8 characters and include one lowercase character, one uppercase character, a number, and a special character.").matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.* )(?=.*[^a-zA-Z0-9]).{8,}$/, "i");
   // req.checkBody('passwordmatch', 'Password must be between 8-100 characters long.').len(8, 100);
   req.checkBody('passwordmatch', 'Passwords do not match, please try again.').equals(req.body.password);
   const errors = req.validationErrors();
-  if (errors) {
+  if (errors){
     console.log(`errors: ${JSON.stringify(errors)}`);
     res.render("register", {
-      title: "registration error",
+      title:"registration error",
       errors: errors
     });
 
-  } else {
+  } else{
 
-    const userName = req.body.username;
-    const passWord = req.body.password;
+  const userName = req.body.username;
+  const passWord = req.body.password;
 
-    var hash = bcrypt.hashSync(passWord, saltRounds);
-    User.create({
+var hash = bcrypt.hashSync(passWord, saltRounds);
+  User.create({
       username: userName,
       password: hash
-    }).then(function(results) {
-      const user_id = results.id;
-      console.log(results.id);
-      req.login(user_id, function(err) {
-        res.redirect('/user');
-      });
+  }).then(function(results){
+    const user_id = results.id;
+    console.log(results.id);
+    req.login(user_id, function(err){
+      res.redirect('/user');
     });
-    // req.login(result.id, function(err){
-    //   res.render('/users');
-    // })
   }
+);
+}
 });
+
 
 router.post("/submit", function(req, res) {
 
 });
+function authenticationMiddleware () {
+	return (req, res, next) => {
+		console.log(`req.session.passport.user: ${JSON.stringify(req.session.passport)}`);
 
+	    if (req.isAuthenticated()) return next();
+	    res.redirect('/login')
+	}
+}
 passport.serializeUser(function(user_id, done) {
   done(null, user_id);
 });

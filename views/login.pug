@@ -7,8 +7,8 @@ head
         ul.errors
           each error in errors
             div(class="alert alert-danger")= error.msg
-      form(method="post" action="/register")
-        h3#emailHelp.form-text.text-muted Please Register
+      form(method="post" action="/login")
+        h3#emailHelp.form-text.text-muted Please Login
         br
         .form-group
           label(for="exampleInputEmail1") Username
@@ -16,8 +16,7 @@ head
         .form-group
           label(for="exampleInputPassword1") Password
           input#exampleInputPassword1.form-control(type="password",name="password", placeholder="Password")
-          br
-          input#exampleInputPassword1.form-control(type="password",name="passwordmatch", placeholder="Re enter password")
+          
 
         button.btn.btn-primary(type="submit") Submit
           
@@ -25,4 +24,4 @@ head
           
 
   script(src="/js/main.js")
-  //- script(src="/js/bootstrap.js")
+  script(src="/js/bootstrap.js")
