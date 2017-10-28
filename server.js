@@ -57,61 +57,10 @@ app.use(session({
   })
 }));
 
-//set storage
-const storage = multer.diskStorage({
-  destination: './public/uploads/',
-  filename: function(req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-  }
-});
-
-//start upload based on name field
-const upload = multer({
-  storage: storage
-}).single('myImage');
-
-app.post('/upload', function(req,res){
-  upload(req, res, function(err){
-    if (err){
-      return res.send('Error uploading file');
-    }
-    res.send('File uploaded');
-  });
-});
-
-// template
-// router.post("/upload", uploader.single("file"), function(req, res) {
-// // Make sure they sent a file
-//     if (!req.file || !req. file.mimetype.includes("image/")) {
-//             return renderTemplate(res, "upload", "Upload", {
-//                     username: req.user.get("username"),
-//                     id: req.user.get("id"),
-//                     error: "You must choose a photo to upload",
-//             });
-//     }
-//     // Otherwise, try an upload
-//     req.user.upload(req.file, req).then(function(photo) {
-//             res.redirect("preview/" + photo.get("id"));
-//     })
-//     .catch(function(err) {
-//             console.error("Something went wrong with upload", err);
-//             renderTemplate(res, "upload", "Upload", {
-//                     error: "Something went wrong, please try a different file",
-//             });
-//     });
-// });
-
 app.get('/gallery', function(req, res) {
-
   // Photos.findAll().then(function(photorows){
-
   res.render('gallery');
-
-
-
 });
-
-
 
 //render non logged in home
 app.use('/', indexroute);
@@ -119,35 +68,26 @@ app.use('/', indexroute);
 //render users
 app.use('/user', userRoutes);
 
-app.post('/uploads', function(req, res) {
-  upload(req, res, (err) => {
-    if (err) {
-      res.render('upload', {
-        msg: err
-      });
-    } else {
-      console.log(req.file);
-      res.render('gallery');
-    }
-  });
-});
 passport.use(new LocalStrategy(
   function(username, password, done) {
     console.log(username);
     console.log(password);
-    User.findOne({ where: {username: [username]} }).then(function(err,results) {
-      if(err) {done(err)};
+    User.findOne({
+      where: {
+        username: [username]
+      }
+    }).then(function(err, results) {
+      if (err) {
+        done(err);
+      }
       console.log(results);
-      if(results === 0){
-          done(null,"ssssdd");
+      if (results === 0) {
+        done(null, "ssssdd");
       }
       return done(null, "sss");
     });
 
   }));
-
-// // render api routes
-// app.use("/api", apiRoutes);
 
 // catch 404 error
 app.get("*", function(req, res) {

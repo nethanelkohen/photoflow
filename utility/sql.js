@@ -26,7 +26,7 @@ if (process.env.DATABASE_URL) {
 // else {
 // 	sql = new Sequelize({
 // 		database: "photoflow",
-// 		username: "nethanelkohen",
+// 		username: "lester",
 // 		password: "",
 // 		host: process.env.DB_HOST || "localhost",
 // 		port: process.env.DB_PORT || 5432,

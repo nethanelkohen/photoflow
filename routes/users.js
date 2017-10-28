@@ -1,85 +1,63 @@
 var express = require("express");
 var router = express.Router();
-var Sequelize= require("sequelize");
+var Sequelize = require("sequelize");
 var connection = require('../utility/sql.js');
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var multer = require('multer');
+var path = require('path');
+var session = require('express-session');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
 // require models
 var Comments = require('../models/comments.js');
 var likes = require('../models/likes.js');
 var Photos = require('../models/photos.js');
 var User = require('../models/user.js');
 
-router.get('/', authenticationMiddleware(), function(req,res){
+// initalize sequelize with session store
+var SequelizeStore = require('connect-session-sequelize')(session.Store);
+
+router.get('/', authenticationMiddleware(), function(req, res) {
   console.log(req.user);
   console.log(req.isAuthenticated());
-       res.render('gallery');
-})
+  res.render('gallery');
+});
 
+router.get('/gallery', function(req, res) {
+  // Photos.findAll().then(function(photorows){
+  res.render('gallery');
+});
+
+const storage = {
+  storage: multer.diskStorage({
+    destination: function(req, file, next) {
+      next(null, './public/uploads');
+    },
+    filename: function(req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+  })
+};
 
 router.get('/upload', function(req, res) {
   res.render('upload');
 });
 
-router.get('/gallery',function(req, res) {
-  // Photos.findAll().then(function(photorows){
-       res.render('gallery');
-
+router.post('/upload', multer(storage).single('myImage'), function(req, res, next) {
+  console.log(req.file);
+  console.log(req.body);
+  res.redirect('gallery');
 });
 
-// router.get("/signup", function(req, res, error) {
-// 	renderUserTemp(res, "signup", "Signup", {
-// 	});
-// });
-// router.get('/register', function(req, res) {
-//   res.render('register');
-// });
+function authenticationMiddleware() {
+  return (req, res, next) => {
+    console.log(`req.session.passport.user: ${JSON.stringify(req.session.passport)}`);
 
-//
-// // render sign up
-// router.post("/signup", function(req, res) {
-// 	if (req.body.username === "" || req.body.password === "") {
-// 		return profile(res, "signup", "Signup", {
-// 			error: "Please fill in all required fields",
-// 		});
-// 	}
-// 	else {
-// 			User.signup(req)
-// 			.then(function() {
-// 				res.redirect("/photo/gallery");
-// 			})
-// 			.catch(function(err) {
-// 				res.status(400);
-// 				renderUserTemp(res, "signup", "Signup", {
-// 					error: "Please ensure all fields are filled in properly",
-// 				});
-// 			});
-// 		};
-// 	});
-//
-// // render login
-// router.get("/login", function(req, res) {
-//   res.render('profile');
-// });
-//
-// router.post("/login", function(req, res) {
-// 	User.login(req)
-// 		.then(function() {
-// 			req.session.user;
-// 			res.redirect("/homepage");
-// 		})
-// 		.catch(function(err) {
-// 			res.status(400);
-//       res.redirect("/homepage");
-// 		});
-// });
-//
-function authenticationMiddleware () {
-	return (req, res, next) => {
-		console.log(`req.session.passport.user: ${JSON.stringify(req.session.passport)}`);
-
-	    if (req.isAuthenticated()) return next();
-	    res.redirect('/login')
-	}
+    if (req.isAuthenticated()) return next();
+    res.redirect('/login')
+  }
 }
 
 module.exports = router;

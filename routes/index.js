@@ -15,8 +15,8 @@ var likes = require('../models/likes.js');
 var photos = require('../models/photos.js');
 var User = require('../models/user.js');
 var passport = require('passport');
-var session = require("express-session"),
-  bodyParser = require("body-parser");
+var session = require("express-session");
+var bodyParser = require("body-parser");
 
 router.use(express.static("public"));
 router.use(session({
@@ -81,7 +81,7 @@ router.get('/login', function(req, res) {
   res.render('login');
 });
 
-router.post('/login',passport.authenticate('local',{
+router.post('/login', passport.authenticate('local', {
   successRedirect: '/user',
   faileRedirect: '/login'
 }));
@@ -98,44 +98,44 @@ router.post('/register', function(req, res, next) {
   // req.checkBody('passwordmatch', 'Password must be between 8-100 characters long.').len(8, 100);
   req.checkBody('passwordmatch', 'Passwords do not match, please try again.').equals(req.body.password);
   const errors = req.validationErrors();
-  if (errors){
+  if (errors) {
     console.log(`errors: ${JSON.stringify(errors)}`);
     res.render("register", {
-      title:"registration error",
+      title: "registration error",
       errors: errors
     });
 
-  } else{
+  } else {
 
-  const userName = req.body.username;
-  const passWord = req.body.password;
+    const userName = req.body.username;
+    const passWord = req.body.password;
 
-var hash = bcrypt.hashSync(passWord, saltRounds);
-  User.create({
+    var hash = bcrypt.hashSync(passWord, saltRounds);
+    User.create({
       username: userName,
       password: hash
-  }).then(function(results){
-    const user_id = results.id;
-    console.log(results.id);
-    req.login(user_id, function(err){
-      res.redirect('/user');
+    }).then(function(results) {
+      const user_id = results.id;
+      console.log(results.id);
+      req.login(user_id, function(err) {
+        res.redirect('/user');
+      });
     });
   }
-);
-}
 });
 
 
 router.post("/submit", function(req, res) {
 
 });
-function authenticationMiddleware () {
-	return (req, res, next) => {
-		console.log(`req.session.passport.user: ${JSON.stringify(req.session.passport)}`);
 
-	    if (req.isAuthenticated()) return next();
-	    res.redirect('/login')
-	}
+function authenticationMiddleware() {
+  return (req, res, next) => {
+    console.log(`req.session.passport.user: ${JSON.stringify(req.session.passport)}`);
+
+    if (req.isAuthenticated()) return next();
+    res.redirect('/login')
+  }
 }
 passport.serializeUser(function(user_id, done) {
   done(null, user_id);
