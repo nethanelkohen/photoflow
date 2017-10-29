@@ -1,22 +1,22 @@
 var express = require("express");
 var router = express.Router();
 var Sequelize = require("sequelize");
-var cookieParser = require("cookie-parser");
 var connection = require('../utility/sql.js');
+var cookieParser = require("cookie-parser");
+var bodyParser = require('body-parser');
+var multer = require('multer');
+var path = require('path');
+var session = require("express-session");
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var expressValidator = require('express-validator');
 var bcrypt = require('bcrypt');
 const saltRounds = 10;
-var bodyParser = require('body-parser');
-// require models
 var comments = require('../models/comments.js');
 var likes = require('../models/likes.js');
 var photos = require('../models/photos.js');
 var User = require('../models/user.js');
-var passport = require('passport');
-var session = require("express-session");
-var bodyParser = require("body-parser");
+var SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 router.use(express.static("public"));
 router.use(session({
@@ -46,50 +46,47 @@ router.use(expressValidator({
   }
 }));
 
-// get homepage
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({
-      username: username
-    }, function(err, user) {
-      if (err) {
-        return done(err);
-      }
-      if (!user) {
-        // add message to pug file
-        return done(null, false, {
-          message: 'Incorrect username.'
-        });
-      }
-      if (!user.validPassword(password)) {
-        return done(null, false, {
-          message: 'Incorrect password.'
-        });
-      }
-      return done(null, user);
-    });
-  }
-));
+router.post('/uploadfile', function(req, res) {
+  upload(req, res, (err) => {
+    if (err) {
+      res.render('upload', {
+        msg: err
+      });
+    } else {
+      console.log(req.file);
+      res.render('gallery');
+    }
+  });
+});
 
+
+
+/////////////////////+++++++++   NO AUTH ROUTES +++++++++/////////////////
+
+//////....HOMEPAGE.....
 router.get('/', function(req, res) {
   console.log(req.user);
   console.log(req.isAuthenticated());
-  res.render('home');
+  req.logout();
+  req.session.destroy();
+  res.render('home',{title:'Home Page'});
 })
-
+//////....LOGIN.....
 router.get('/login', function(req, res) {
-  res.render('login');
+  console.log(req.user);
+  console.log(req.isAuthenticated());
+
+  res.render('login',{title:'Login'});
 });
 
 router.post('/login', passport.authenticate('local', {
-  successRedirect: '/user',
-  faileRedirect: '/login'
+  successRedirect: 'gallery',
+  failureRedirect: 'login'
 }));
 
-// render register
 
-router.get('/register', function(req, res) {
-  res.render('register');
+router.get('/register', function(req, res, next) {
+  res.render('register',{title:'Register'});
 });
 
 router.post('/register', function(req, res, next) {
@@ -104,12 +101,9 @@ router.post('/register', function(req, res, next) {
       title: "registration error",
       errors: errors
     });
-
   } else {
-
     const userName = req.body.username;
     const passWord = req.body.password;
-
     var hash = bcrypt.hashSync(passWord, saltRounds);
     User.create({
       username: userName,
@@ -118,23 +112,51 @@ router.post('/register', function(req, res, next) {
       const user_id = results.id;
       console.log(results.id);
       req.login(user_id, function(err) {
-        res.redirect('/user');
+        res.redirect('gallery');
       });
     });
   }
 });
 
+/////////////////////+++++++++    AUTH ROUTES +++++++++/////////////////
 
-router.post("/submit", function(req, res) {
-
+router.get('/gallery', authenticationMiddleware(), function(req, res) {
+  console.log(req.user);
+  console.log(req.isAuthenticated());
+  res.render('gallery');
+});
+router.get('/upload', authenticationMiddleware(), function(req, res) {
+  console.log(req.user);
+  console.log(req.isAuthenticated());
+  res.render('upload');
 });
 
+router.get('/logout',function(req,res){
+  req.logout();
+  req.session.destroy();
+  res.redirect('/');
+})
+
+
+///////////////////// ----- MIDDLEWARE
+
+
+const storage = {
+  storage: multer.diskStorage({
+    destination: function(req, file, next) {
+      next(null, './public/uploads');
+    },
+    filename: function(req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+  })
+};
 function authenticationMiddleware() {
   return (req, res, next) => {
     console.log(`req.session.passport.user: ${JSON.stringify(req.session.passport)}`);
 
     if (req.isAuthenticated()) return next();
-    res.redirect('/login')
+    res.redirect('login')
   }
 }
 passport.serializeUser(function(user_id, done) {

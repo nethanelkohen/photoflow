@@ -5,14 +5,15 @@ var multer = require('multer');
 var path = require('path');
 var Sequelize = require("sequelize");
 var connection = require('./utility/sql.js');
-var Comments = require('./models/comments.js');
+// var Comments = require('./models/comments.js');
 var session = require('express-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 // initalize sequelize with session store
 var SequelizeStore = require('connect-session-sequelize')(session.Store);
 var User = require('./models/user.js');
-
+var bcrypt = require('bcrypt');
+connection.sync();
 // might be needed to deploy on heroku
 const {
   Client
@@ -37,7 +38,7 @@ client.query('SELECT table_schema,table_name FROM information_schema.tables;', (
 
 // routes
 var photoRoutes = require("./routes/photos.js");
-var userRoutes = require("./routes/users.js");
+// var userRoutes = require("./routes/users.js");
 var indexroute = require("./routes/index.js");
 
 // middleware
@@ -57,37 +58,46 @@ app.use(session({
   })
 }));
 
-app.get('/gallery', function(req, res) {
-  // Photos.findAll().then(function(photorows){
-  res.render('gallery');
-});
 
 //render non logged in home
 app.use('/', indexroute);
 
 //render users
-app.use('/user', userRoutes);
+// app.use('/user', userRoutes);
 
-passport.use(new LocalStrategy(
-  function(username, password, done) {
+passport.use(new LocalStrategy(function(username, password, done) {
     console.log(username);
     console.log(password);
-    User.findOne({
-      where: {
-        username: [username]
-      }
-    }).then(function(err, results) {
-      if (err) {
-        done(err);
-      }
-      console.log(results);
-      if (results === 0) {
-        done(null, "ssssdd");
-      }
-      return done(null, "sss");
+    User.findOne({where: {username: username}})
+    .then(project =>{
+      if(project === null){
+        done(null,false);
+      }else{
+        console.log("username found in database");
+          console.log(project.password)
+          const hash = project.password
+          const useridcurrent = project.id
+          bcrypt.compare(password, hash, function(err, response){
+            if(response === true){
+              return done(null, {user_id: useridcurrent});
+            }else{
+              return done(null, false ,{message: "Incorrect Credentials"});
+            }
+          })
+        }
+
+    })
+
+
+    }));
+    passport.serializeUser(function(user_name, done) {
+      done(null, user_name);
     });
 
-  }));
+    passport.deserializeUser(function(user_name, done) {
+      done(null, user_name);
+    });
+
 
 // catch 404 error
 app.get("*", function(req, res) {
@@ -97,7 +107,7 @@ app.get("*", function(req, res) {
 // set up database and server
 connection.sync().then(function() {
   console.log("Database ready");
-  app.listen(process.env.PORT || 3000, function() {
+  app.listen(process.env.PORT || 4000, function() {
     console.log("Listening at 3000");
   });
 });
