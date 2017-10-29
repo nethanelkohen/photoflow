@@ -3,35 +3,34 @@ head
   body    
     include profilenav.pug
     div.feedcontainer
-        div.maincontainer
-          - for (var i = databasePost.length - 1; i >= 0; --i) {
-
-          - }
-
-          div.userimage
-            img(class="userimage" src="images/sample.jpg")
-          div.username
-            span.captiontext
-              // h3= postData[i].username
+      - for (var i = databasePost.length - 1; i >= 0; --i) {
+          
+            // div.userimage
+            //   img(class="userimage"  src= databasePost[i].filename)
+            div.maincontainer
+              div.username
+                  - for (var v = postusername.length -1; v >= 0; --v)
+                      h3= postusername[v]
+                
+              div.postimagecontainer
+                img(class="postimage" src=databasePost[i].filename)
+              div.captioncontainer
+                i(class="fa fa-heart fa-2x" aria-hidden="true")
+                span.captiontext= databasePost[i].description
+              div(class="commentBoxfloat")
+                form(id="cmnt" action="gallery" method="POST")
+                  fieldset
+                    div.form_grp
+                      label(class="commentLabel") Comment
+                      textarea(id="userCmnt" name="sendComment" placeholder="Write your comment here")
+                    div.form_grp
+                      button(type="submit" name=databasePost[i].id class="send-image-comment") Add Comment
+              // i(class="fa fa-comment fa-2x" aria-hidden="true")
+              // form(action='/commentsubmit' method='POST')
+                // input(class="commentinput" name="textarea" placeholder="Enter your comment")
+                // input(class="submitinput" type="submit")
             
-          div.postimagecontainer
-            img(class="postimage" src="/public/uploads/myImage-1508975054036.JPG")
-          div.postlikecontainer
-            i(class="fa fa-heart fa-2x" aria-hidden="true")
-            i(class="fa fa-comment fa-2x" aria-hidden="true")
-            form(action='/commentsubmit' method='POST')
-              input(class="commentinput" name="textarea" placeholder="Enter your comment")
-              input(class="submitinput" type="submit")
-            
-          div.captioncontainer
-            // span.captiontext= postData[i].username
-            // span.captiontext= postData[i].description
-          // div.commentbox
-          //   ul
-          //   - for (var i = commentData.length - 1; i >= 0; --i) {
-          //       li.commenttext=commentData[i].text
-          //   - }  
-
+      - }
       
           
 

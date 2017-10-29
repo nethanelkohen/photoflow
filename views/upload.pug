@@ -4,8 +4,9 @@ head
     include profilenav.pug
     div.feedcontainer
       div.maincontainer
-        form(class="uploadform" id="uploadForm" enctype="multipart/form-data" method="POST")
-          input( placeholder="entertitile" type='text' name="posttitle")
+        form(class="uploadform" action="upload" id="uploadForm" enctype="multipart/form-data" method="POST")
+          center
+            input(type="text" class="uploadInput" name="description" placeholder="Enter your caption!")
           div.file-upload
             button(class="file-upload-btn" type="button"  onclick="$('.file-upload-input').trigger( 'click' )") Upload
           div.image-upload-wrap

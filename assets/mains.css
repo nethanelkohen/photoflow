@@ -2,6 +2,7 @@
 body {
   margin: 0;
   padding: 0;
+  background-color:#fafafa !important;
 }
 
 html {
@@ -71,9 +72,10 @@ nav {
 .feedcontainer {
   margin: 20px auto;
   width: 85%;
-  border: 1px solid rgba(0, 198, 255, 0.5);
+  max-width: 600px;
+  /*border: 1px solid rgba(0, 198, 255, 0.5);*/
   /*padding: 10px;*/
-  background-color: white;
+  /*background-color: white;*/
   /*box-shadow: 0px 0px 20px 0px rgba(0, 198, 255, 0.5);*/
 }
 
@@ -85,6 +87,7 @@ nav {
   display: flex;
   -webkit-flex-flow: row wrap;
   justify-content: flex-start;
+  margin: 0 auto 30px;
 }
 
 .userimage {
@@ -96,12 +99,13 @@ nav {
 }
 
 .username {
-  margin-left: 15px;
+  width:100%;
+  background-color: white;
+  padding: 10px 15px;
   margin-top: 5px;
 }
 
 .postimagecontainer {
-  margin-top: 10px;
   width: 100%;
 }
 
@@ -110,15 +114,18 @@ nav {
 }
 
 .postlikecontainer {
-  margin-top: 10px;
+  margin: 10px 0px 10px;
   width: 100%;
   padding-left: 10px;
 }
 
 .captioncontainer {
-  margin-top: 10px;
   width: 100%;
-  padding: 0 10px;
+  background-color: white;
+  padding: 10px 15px;
+}
+.commentBoxfloat{
+  width: 100%;
 }
 
 .profilecontainer {
@@ -129,10 +136,16 @@ nav {
 }
 
 .captiontext {
+  text-transform: capitalize;
+  font-family: sans-serif;
+  font-size: 16px;
+  padding-left:10px
+}
+.usertext {
+  text-transform: uppercase;
   font-family: sans-serif;
   font-size: 16px;
 }
-
 .commentbox {
   margin-top: 10px;
   width: 100%;
@@ -207,7 +220,30 @@ ul {
   font-weight: bold;
   text-align: center;
 }
+/* username and password fields */
+.uploadInput{
+  font-family: 'Open Sans', 'sans-serif';
+  border: 1px solid #acacac;
+  color: #666;
+  opacity: .7;
+  border-radius: 5px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  width: 100%;
+  transition: all .3s;
+  -webkit-transition: all .3s;
+  -moz-transition: all .3s;
+  font-size: 16px;
+}
 
+.uploadInput:focus{
+  border: 1px solid #55acee;
+  opacity: 1;
+  width: 320px;
+  outline: none;
+  color: #55acee;
+}
 .deletedialog {
   display: none;
 }
@@ -217,7 +253,7 @@ ul {
 
 .uploadform {
   /*width:200px;*/
-  margin: auto;
+  margin: 20px auto;
 }
 
 .file-upload {
@@ -331,6 +367,33 @@ ul {
   border: 0;
   transition: all .2s ease;
 }
+.send-image-comment {
+  width: 40%;
+  float:right;
+  margin: 5px;
+  color: #fff;
+  background: #cd4535;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #b02818;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.send-image-comment:hover {
+  background: #c13b2a;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+.send-image-comment:active {
+  border: 0;
+  transition: all .2s ease;
+}
 
 .registerForm {
   width: 300px;
@@ -339,4 +402,66 @@ ul {
 
 .placeholder {
   width: 100%
+}
+
+/*comment box css*/
+
+.commentBox{
+
+}
+fieldset{
+  padding:10px;
+  background:#3fa46a;
+}
+.form_grp{
+  margin-bottom:10px;
+}
+.commentLabel{
+  width:100%;
+  height:32px;
+  line-height:32px;
+  display:block;
+  margin-bottom:10px;
+  font-size:18px;
+  color:#fff;
+ padding-left:34px; background:url(https://cdn3.iconfinder.com/data/icons/glypho-free/64/pen-checkbox-32.png) no-repeat left center;
+}
+textarea{
+  width:100%;
+  height:70px;
+  padding:10px;
+  border:1px solid #eee;
+  resize:none !important;
+}
+.buttonComment{
+  padding:5px 20px;
+  background-color:#3fa46a;
+  color:#fff;
+  float:right;
+}
+.viewCmnt{
+  clear:both;
+  overflow:hidden;
+  position:relative;
+  background:#c8e7fb;
+  border-bottom:1px solid #A6DAFC;
+}
+.viewCmnt p {
+  width:100%;
+  float:left;
+  padding:10px;
+  font-size:14px;
+  line-height:20px;
+  }
+.edit, .delete{
+  position:absolute;
+  width:20px;
+  height:20px;
+  display:none;
+  cursor:pointer;
+  bottom:5px;
+  padding:2px;
+   }
+.viewCmnt:hover .edit, .viewCmnt:hover .delete{
+  display:block;
 }

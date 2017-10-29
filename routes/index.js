@@ -12,21 +12,22 @@ var LocalStrategy = require('passport-local').Strategy;
 var expressValidator = require('express-validator');
 var bcrypt = require('bcrypt');
 const saltRounds = 10;
-var comments = require('../models/comments.js');
+var Comments = require('../models/comments.js');
 var likes = require('../models/likes.js');
 var photos = require('../models/photos.js');
 var User = require('../models/user.js');
 var Photos = require('../models/photos.js');
 var SequelizeStore = require('connect-session-sequelize')(session.Store);
 var fs = require('fs')
+router.use(require("body-parser")());
 
 router.use(express.static("public"));
 router.use(session({
   secret: "photoflow"
 }));
-router.use(bodyParser.urlencoded({
-  extended: false
-}));
+// router.use(bodyParser.urlencoded({
+//   extended: false
+// }));
 router.use(passport.initialize());
 router.use(passport.session());
 
@@ -101,7 +102,7 @@ router.post('/register', function(req, res, next) {
       const user_id = results.id;
       console.log(results.id);
       req.login(user_id, function(err) {
-        res.redirect('gallery');
+        res.redirect('upload');
       });
     });
   }
@@ -110,13 +111,20 @@ router.post('/register', function(req, res, next) {
 /////////////////////+++++++++    AUTH ROUTES +++++++++/////////////////
 
 router.get('/gallery', authenticationMiddleware(), function(req, res) {
-  console.log(req.user);
+  console.log(req.user.user_id);
   console.log(req.isAuthenticated());
-  Photos.findAll().then(function(rows){
-    console.log(rows);
-    res.render('gallery',{databasePost:rows});
+  User.findById(req.user.user_id).then(function(userResult){
+    Photos.findAll().then(function(rows){
+      Comments.findAll().then(function(comments){
+        console.log(userResult.id);
+        res.render('gallery',{databasePost:rows, postusername:userResult});
 
-  })
+      })
+
+    })
+
+  });
+
 });
 router.get('/upload', authenticationMiddleware(), function(req, res) {
   console.log(req.user);
@@ -124,6 +132,7 @@ router.get('/upload', authenticationMiddleware(), function(req, res) {
   res.render('upload');
 });
 router.post('/upload', function(req, res) {
+
   var upload = multer({
   		storage: storage,
   		fileFilter: function(req, file, callback) {
@@ -135,31 +144,46 @@ router.post('/upload', function(req, res) {
   		}
   	}).single('myImage');
   	upload(req, res, function(err) {
-      var fileSize = req.file.size
-      var originalName= req.file.originalname
-      var userposted = req.user.user_id
-      var mimeType = req.file.mimetype
-      var description = req.file.destination
-      var fileName = req.file.path
-      Photos.create({
-        size: fileSize,
-        originalName: originalName,
-        userposted: userposted,
-        mimeType: mimeType,
-        description: description,
-        filename: fileName
-      }).then(function(results) {
-        console.log("added " + results);
+      var descriptionBody = req.body.description
+
+      User.findById(req.user.user_id).then(function(userResult){
+        var fileSize = req.file.size
+        var originalName= req.file.originalname
+        var userposted = userResult.dataValues.username
+        var mimeType = req.file.mimetype
+        var fileName = req.file.path
+        Photos.create({
+          size: fileSize,
+          originalName: originalName,
+          userId: req.user.user_id,
+          mimeType: mimeType,
+          description: descriptionBody,
+          filename: fileName
+        }).then(function(results) {
+          console.log("added " + results);
+        });
+
+        res.redirect("gallery")
+        })
       });
 
-      res.redirect("gallery")
-  	})
 })
 
 router.get('/logout',function(req,res){
   req.logout();
   req.session.destroy();
   res.redirect('/');
+})
+router.post('/gallery', function(req, res) {
+    var receivedComment = req.body.sendComment
+    var receivedComment = req.body.sendComment
+    Comments.create({
+      userId: req.user.user_id,
+      comment: receivedComment
+    }).then(function(results) {
+        res.redirect('gallery');
+    });
+
 })
 
 
