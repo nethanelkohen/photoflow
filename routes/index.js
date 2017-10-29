@@ -111,6 +111,7 @@ router.post('/register', function(req, res, next) {
 /////////////////////+++++++++    AUTH ROUTES +++++++++/////////////////
 
 router.get('/gallery', authenticationMiddleware(), function(req, res) {
+
   console.log(req.user.user_id);
   console.log(req.isAuthenticated());
     Photos.findAll().then(function(photos){
