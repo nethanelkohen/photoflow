@@ -110,7 +110,7 @@ app.get("*", function(req, res) {
 // set up database and server
 connection.sync().then(function() {
   console.log("Database ready");
-  app.listen(process.env.PORT || 4000, function() {
+  app.listen(process.env.PORT || 3000, function() {
     console.log("Listening at 3000");
   });
 });

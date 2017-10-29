@@ -8,10 +8,8 @@ head
             // div.userimage
             //   img(class="userimage"  src= databasePost[i].filename)
             div.maincontainer
-              div.username
-                  - for (var v = postusername.length -1; v >= 0; --v)
-                      h3= postusername[v]
-                
+              div.username= databasePost[i].userposted
+              div.username= databasePost[i].id
               div.postimagecontainer
                 img(class="postimage" src=databasePost[i].filename)
               div.captioncontainer
@@ -22,9 +20,10 @@ head
                   fieldset
                     div.form_grp
                       label(class="commentLabel") Comment
-                      textarea(id="userCmnt" name="sendComment" placeholder="Write your comment here")
+                      input(name="sendpostid" style="display:none" value=databasePost[i].id)
+                      input(id="userCmnt" name="sendComment" placeholder="Write your comment here")
                     div.form_grp
-                      button(type="submit" name=databasePost[i].id class="send-image-comment") Add Comment
+                      button(type="submit"  class="send-image-comment") Add Comment
               // i(class="fa fa-comment fa-2x" aria-hidden="true")
               // form(action='/commentsubmit' method='POST')
                 // input(class="commentinput" name="textarea" placeholder="Enter your comment")

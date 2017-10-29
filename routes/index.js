@@ -113,13 +113,15 @@ router.post('/register', function(req, res, next) {
 router.get('/gallery', authenticationMiddleware(), function(req, res) {
   console.log(req.user.user_id);
   console.log(req.isAuthenticated());
-  User.findById(req.user.user_id).then(function(userResult){
-    Photos.findAll().then(function(rows){
+    Photos.findAll().then(function(photos){
       Comments.findAll().then(function(comments){
-        console.log(userResult.id);
-        res.render('gallery',{databasePost:rows, postusername:userResult});
+        User.findById(req.user.user_id).then(function(username){
+          console.log(username.username);
+           res.render('gallery',{databasePost:photos, postusername:username.username});
+        });
 
-      })
+
+
 
     })
 
@@ -147,13 +149,16 @@ router.post('/upload', function(req, res) {
       var descriptionBody = req.body.description
 
       User.findById(req.user.user_id).then(function(userResult){
+        console.log(userResult.username);
+        var userName = userResult
         var fileSize = req.file.size
         var originalName= req.file.originalname
-        var userposted = userResult.dataValues.username
+        var userposted = userResult.username
         var mimeType = req.file.mimetype
         var fileName = req.file.path
         Photos.create({
           size: fileSize,
+          userposted: userposted,
           originalName: originalName,
           userId: req.user.user_id,
           mimeType: mimeType,
@@ -176,10 +181,13 @@ router.get('/logout',function(req,res){
 })
 router.post('/gallery', function(req, res) {
     var receivedComment = req.body.sendComment
-    var receivedComment = req.body.sendComment
+    var sendpostid = req.body.sendpostid
+    console.log(receivedComment);
+    console.log(sendpostid);
     Comments.create({
       userId: req.user.user_id,
-      comment: receivedComment
+      comment: receivedComment,
+      photoId: sendpostid
     }).then(function(results) {
         res.redirect('gallery');
     });
