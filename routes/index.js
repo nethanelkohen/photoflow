@@ -102,7 +102,7 @@ router.post('/register', function(req, res, next) {
       const user_id = results.id;
       console.log(results.id);
       req.login(user_id, function(err) {
-        res.redirect('upload');
+        res.redirect('login');
       });
     });
   }
@@ -185,8 +185,6 @@ router.post('/gallery', function(req, res) {
     console.log(receivedComment);
     console.log(sendpostid);
     User.findById(req.user.user_id).then(function(currUsername){
-      console.log(currUsername.username);
-      console.log(currUsername.username);
       console.log(currUsername.username);
       Comments.create({
         userId: req.user.user_id,
