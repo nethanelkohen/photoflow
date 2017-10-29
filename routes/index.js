@@ -16,7 +16,9 @@ var comments = require('../models/comments.js');
 var likes = require('../models/likes.js');
 var photos = require('../models/photos.js');
 var User = require('../models/user.js');
+var Photos = require('../models/photos.js');
 var SequelizeStore = require('connect-session-sequelize')(session.Store);
+var fs = require('fs')
 
 router.use(express.static("public"));
 router.use(session({
@@ -45,19 +47,6 @@ router.use(expressValidator({
     };
   }
 }));
-
-router.post('/uploadfile', function(req, res) {
-  upload(req, res, (err) => {
-    if (err) {
-      res.render('upload', {
-        msg: err
-      });
-    } else {
-      console.log(req.file);
-      res.render('gallery');
-    }
-  });
-});
 
 
 
@@ -123,13 +112,49 @@ router.post('/register', function(req, res, next) {
 router.get('/gallery', authenticationMiddleware(), function(req, res) {
   console.log(req.user);
   console.log(req.isAuthenticated());
-  res.render('gallery');
+  Photos.findAll().then(function(rows){
+    console.log(rows);
+    res.render('gallery',{databasePost:rows});
+
+  })
 });
 router.get('/upload', authenticationMiddleware(), function(req, res) {
   console.log(req.user);
   console.log(req.isAuthenticated());
   res.render('upload');
 });
+router.post('/upload', function(req, res) {
+  var upload = multer({
+  		storage: storage,
+  		fileFilter: function(req, file, callback) {
+  			var ext = path.extname(file.originalname)
+  			if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+  				return callback(res.end('Only images are allowed'), null)
+  			}
+  			callback(null, true)
+  		}
+  	}).single('myImage');
+  	upload(req, res, function(err) {
+      var fileSize = req.file.size
+      var originalName= req.file.originalname
+      var userposted = req.user.user_id
+      var mimeType = req.file.mimetype
+      var description = req.file.destination
+      var fileName = req.file.path
+      Photos.create({
+        size: fileSize,
+        originalName: originalName,
+        userposted: userposted,
+        mimeType: mimeType,
+        description: description,
+        filename: fileName
+      }).then(function(results) {
+        console.log("added " + results);
+      });
+
+      res.redirect("gallery")
+  	})
+})
 
 router.get('/logout',function(req,res){
   req.logout();
@@ -141,16 +166,15 @@ router.get('/logout',function(req,res){
 ///////////////////// ----- MIDDLEWARE
 
 
-const storage = {
-  storage: multer.diskStorage({
-    destination: function(req, file, next) {
-      next(null, './public/uploads');
-    },
-    filename: function(req, file, cb) {
-      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-    }
-  })
-};
+var storage = multer.diskStorage({
+	destination: function(req, file, callback) {
+		callback(null, './public/uploads')
+	},
+	filename: function(req, file, callback) {
+		callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+	}
+})
+
 function authenticationMiddleware() {
   return (req, res, next) => {
     console.log(`req.session.passport.user: ${JSON.stringify(req.session.passport)}`);

@@ -99,6 +99,9 @@ passport.use(new LocalStrategy(function(username, password, done) {
     });
 
 
+
+
+
 // catch 404 error
 app.get("*", function(req, res) {
   res.send('404 error');
