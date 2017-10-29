@@ -117,7 +117,7 @@ router.get('/gallery', authenticationMiddleware(), function(req, res) {
       Comments.findAll().then(function(comments){
         User.findById(req.user.user_id).then(function(username){
           console.log(username.username);
-           res.render('gallery',{databasePost:photos, postusername:username.username});
+           res.render('gallery',{databasePost:photos, postusername:username.username, comments:comments});
         });
 
 
@@ -184,13 +184,20 @@ router.post('/gallery', function(req, res) {
     var sendpostid = req.body.sendpostid
     console.log(receivedComment);
     console.log(sendpostid);
-    Comments.create({
-      userId: req.user.user_id,
-      comment: receivedComment,
-      photoId: sendpostid
-    }).then(function(results) {
-        res.redirect('gallery');
+    User.findById(req.user.user_id).then(function(currUsername){
+      console.log(currUsername.username);
+      console.log(currUsername.username);
+      console.log(currUsername.username);
+      Comments.create({
+        userId: req.user.user_id,
+        comment: receivedComment,
+        usercommented: currUsername.username,
+        photoId: sendpostid
+      }).then(function(results) {
+          res.redirect('gallery');
+      });
     });
+
 
 })
 

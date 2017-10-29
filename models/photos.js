@@ -39,6 +39,7 @@ const Photos = connection.define("photos", {
 
 Photos.hasMany(Comments);
 
+
 // this isn't working - not sure why
 // User.hasMany(Photos);
 // User.hasMany(Comments);

@@ -9,19 +9,32 @@ head
             //   img(class="userimage"  src= databasePost[i].filename)
             div.maincontainer
               div.username= databasePost[i].userposted
-              div.username= databasePost[i].id
               div.postimagecontainer
                 img(class="postimage" src=databasePost[i].filename)
               div.captioncontainer
                 i(class="fa fa-heart fa-2x" aria-hidden="true")
                 span.captiontext= databasePost[i].description
+              div.commentcontainer
+                - for (var j = comments.length - 1; j >= 0; --j) {
+                    if databasePost[i].id === comments[j].photoId
+                      ul
+                        li
+                          span(class="commenteduser")=comments[j].usercommented 
+                          span(class="comments")=comments[j].comment
+                      
+                    // script
+                    //     if databasePost[i].id === comments[j].userId
+                        
+                        // else
+                        //   h3 Its a Fraud
+                        
+                -}  
               div(class="commentBoxfloat")
                 form(id="cmnt" action="gallery" method="POST")
                   fieldset
                     div.form_grp
-                      label(class="commentLabel") Comment
                       input(name="sendpostid" style="display:none" value=databasePost[i].id)
-                      input(id="userCmnt" name="sendComment" placeholder="Write your comment here")
+                      textarea(id="userCmnt" name="sendComment" placeholder="Write your comment here")
                     div.form_grp
                       button(type="submit"  class="send-image-comment") Add Comment
               // i(class="fa fa-comment fa-2x" aria-hidden="true")

@@ -30,7 +30,7 @@ const User = connection.define("user", {
 // this isn't working - not sure why
 User.hasMany(Photos);
 User.hasMany(Comments);
-Comments.belongsTo(User);
+Comments.belongsTo(User, {foreignKey: 'userId'});
 Photos.belongsTo(User);
 
 // User.prototype.upload = function(file, req) {

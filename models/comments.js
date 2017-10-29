@@ -15,6 +15,10 @@ const Comments = connection.define("comments", {
     type: Sequelize.TEXT,
     notNull: true,
   },
+  usercommented: {
+    type: Sequelize.TEXT,
+    notNull: true,
+  },
 });
 
 // this isn't working - not sure why
