@@ -16,12 +16,12 @@
   "port":"5432"
   },
   "production": {
-  "use_env_variable": "DATABASE_URL",
+//  "use_env_variable": "DATABASE_URL",
   "username": "nethanelkohen",
   "database": "photoflow",
   "host": "localhost",
-  "dialect":"postgres",
-  "protocol":"postgres",
-  "port":"5432"
+//  "dialect":"postgres",
+//  "protocol":"postgres",
+ // "port":"5432"
   }
 }
