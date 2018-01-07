@@ -170,7 +170,6 @@ router.post('/upload', function(req, res) {
         originalName: originalName,
         userId: req.user.user_id,
         mimeType: mimeType,
-        likes: 0,
         description: descriptionBody,
         filename: fileName
       }).then(function(results) {
