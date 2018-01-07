@@ -161,7 +161,7 @@ router.post('/upload', function(req, res) {
   upload(req, res, function(err) {
     var descriptionBody = req.body.description;
 
-    User.findById(req.user.user_id).then(function(userResult) {
+    User.findById(req.session.passport.user).then(function(userResult) {
       console.log(userResult.username);
       var userName = userResult;
       var fileSize = req.file.size;
@@ -173,7 +173,7 @@ router.post('/upload', function(req, res) {
         size: fileSize,
         userposted: userposted,
         originalName: originalName,
-        userId: req.user.user_id,
+        userId: req.session.passport.user,
         mimeType: mimeType,
         description: descriptionBody,
         filename: fileName
