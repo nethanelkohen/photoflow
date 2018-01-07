@@ -107,8 +107,12 @@ router.post('/register', function(req, res, next) {
     }).then(function(results) {
       const user_id = results.id;
       console.log(results.id);
+      passport.authenticate('local', {
+        successRedirect: 'gallery',
+        failureRedirect: 'login'
+      });
       req.login(user_id, function(err) {
-        res.redirect('login');
+        res.redirect('gallery');
       });
     });
   }
@@ -117,15 +121,16 @@ router.post('/register', function(req, res, next) {
 /////////////////////+++++++++    AUTH ROUTES +++++++++/////////////////
 
 router.get('/gallery', authenticationMiddleware(), function(req, res) {
-  console.log(req.user.user_id);
+  // console.log(req.session.passport.user);
+  console.log(`${req.session.passport.user} is logged in`);
   console.log(req.isAuthenticated());
   Photos.findAll().then(function(photos) {
     Comments.findAll().then(function(comments) {
-      User.findById(req.user.user_id).then(function(username) {
-        console.log(username.username);
+      User.findById(req.session.passport.user).then(function(username) {
+        // console.log(username.username);
         res.render('gallery', {
           databasePost: photos,
-          postusername: username.username,
+          // postusername: username.username,
           comments: comments
         });
       });
@@ -191,10 +196,10 @@ router.post('/gallery', function(req, res) {
   var sendpostid = req.body.sendpostid;
   console.log(receivedComment);
   console.log(sendpostid);
-  User.findById(req.user.user_id).then(function(currUsername) {
-    console.log(currUsername.username);
+  User.findById(req.session.passport.user).then(function(currUsername) {
+    console.log(currUsername);
     Comments.create({
-      userId: req.user.user_id,
+      userId: req.session.passport.user,
       comment: receivedComment,
       usercommented: currUsername.username,
       photoId: sendpostid
