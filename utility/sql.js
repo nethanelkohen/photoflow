@@ -1,4 +1,4 @@
-var Sequelize = require("sequelize");
+var Sequelize = require('sequelize');
 
 var sql;
 
@@ -21,18 +21,17 @@ DON'T CHANGE THIS - WE NEED IT FOR HEROKU, use sql connection below
 // }
 
 if (process.env.DATABASE_URL) {
-	sql = new Sequelize(process.env.DATABASE_URL);
-}
-else {
-	sql = new Sequelize({
-		database: "photoflow",
-		username: "postgres",
-		password: "blu",
-		host: process.env.DB_HOST || "localhost",
-		port: process.env.DB_PORT || 5432,
-		dialect: "postgres",
-		logging: false,
-	});
+  sql = new Sequelize(process.env.DATABASE_URL);
+} else {
+  sql = new Sequelize({
+    database: 'photoflow',
+    username: 'nethanelkohen',
+    password: '',
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || 5432,
+    dialect: 'postgres',
+    logging: false
+  });
 }
 
 var Sequelize = require('sequelize');

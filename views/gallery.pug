@@ -12,7 +12,14 @@ head
               div.postimagecontainer
                 img(class="postimage" src=databasePost[i].filename)
               div.captioncontainer
-                i(class="fa fa-heart fa-2x" aria-hidden="true")
+                //- i(class="fa fa-heart fa-2x" aria-hidden="true") 
+                  
+                form(id="cmnt" action="/addLike" method="POST")
+                  input(style="display:none" name='sendpostid' value=databasePost[i].id)
+                  input(style="display:none" name="likevalue" value='1' )
+                  button(style="border:none !important; color:red" type="submit"  )
+                    i(class="fa fa-heart fa-2x" aria-hidden="true")
+                  span= databasePost[i].likes 
                 span.captiontext= databasePost[i].description
               div.commentcontainer
                 - for (var j = comments.length - 1; j >= 0; --j) {

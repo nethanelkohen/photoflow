@@ -1,44 +1,47 @@
-var Sequelize = require("sequelize");
-var connection = require("../utility/sql");
-var fs = require("fs-extra");
-var path = require("path");
-var Comments = require("./comments");
-var imagePath = "public/uploads/";
-var bodyParser = require("body-parser");
+var Sequelize = require('sequelize');
+var connection = require('../utility/sql');
+var fs = require('fs-extra');
+var path = require('path');
+var Comments = require('./comments');
+var imagePath = 'public/uploads/';
+var bodyParser = require('body-parser');
 
-const Photos = connection.define("photos", {
+const Photos = connection.define('photos', {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
-    primaryKey: true,
+    primaryKey: true
   },
   size: {
     type: Sequelize.INTEGER,
-    notNull: true,
+    notNull: true
   },
   originalName: {
     type: Sequelize.STRING,
-    notNull: true,
+    notNull: true
   },
   userposted: {
     type: Sequelize.STRING,
-    notNull: true,
+    notNull: true
   },
-  mimeType: {
+  userposted: {
     type: Sequelize.STRING,
-    notNull: true,
+    notNull: true
+  },
+  likes: {
+    type: Sequelize.INTEGER,
+    notNull: false
   },
   description: {
-    type: Sequelize.STRING(150),
+    type: Sequelize.STRING(150)
   },
   filename: {
     type: Sequelize.STRING,
-    notNull: true,
-  },
+    notNull: true
+  }
 });
 
 Photos.hasMany(Comments);
-
 
 // this isn't working - not sure why
 // User.hasMany(Photos);
