@@ -1,4 +1,4 @@
-<img src="assets/logo.PNG" align="right" alt="PhotoFlow Logo" width="200" height="200" overflow="hidden" />
+<img src="assets/logo.PNG" align="right" alt="PhotoFlow Logo" width="350" height="200" overflow="hidden" />
 
 # PhotoFlow
 
@@ -151,7 +151,7 @@ $ node server.js
 * [Pug](https://pugjs.org/) is a templating language that lets you markup HTML with JavaScript.
   <br><br>
 
-<img src="https://i.cloudup.com/zfY6lL7eFa-3000x3000.png" align="center" width="210" height="100" /> <br><br>
+<img src="https://i.cloudup.com/zfY6lL7eFa-3000x3000.png" align="center" width="210" height="80" /> <br><br>
 
 * [Express](https://expressjs.com/) is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.
   <br><br>
@@ -165,12 +165,12 @@ $ node server.js
 <hr>
 <br>
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Node.js_logo_2015.svg" align="center" width="190" height="120" /> <br><br>
+<img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Node.js_logo_2015.svg" align="center" width="200" height="100" /> <br><br>
 
 * [Node](https://nodejs.org/en/) is a multi-platform, open-source JavaScript run-time environment that executes code on the server-side.
   <br><br>
 
-<img src="https://www.fullstackpython.com/img/logos/postgresql.jpg" align="center" width="200" height="120" /> <br><br>
+<img src="https://www.fullstackpython.com/img/logos/postgresql.jpg" align="center" width="220" height="120" /> <br><br>
 
 * [PostgreSQL](https://www.postgresql.org/) is a powerful, open source object-relational database system.
   <br><br>
