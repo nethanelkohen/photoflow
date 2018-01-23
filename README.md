@@ -116,32 +116,32 @@ $ node server.js
 
 ```
 ├── photoflow    # Source code
-│   ├── server.js         ## Main entry point
-│   ├── fonts        ##
-│   ├── assets         ## Static assets
-│   ├── models     ## Database
-│   │   └── comments.js     ###
-│   │   └── likes.js     ###
-│   │   └── photos.js     ###
-│   │   └── user.js     ###
-│   ├── public        ### Holds local files
-│   ├── routes     ## Handles routing
-│   │   └── index.js     ###
-│   │   └── photos.js     ###
-│   │   └── users.js     ###
-│   └── utility     ## Database environment
-│   |    └── sql.js     ###
+│   ├── server.js         # Main entry point
+│   ├── fonts
+│   ├── assets         # Static assets
+│   ├── models     # Database
+│   │   └── comments.js
+│   │   └── likes.js
+│   │   └── photos.js
+│   │   └── user.js
+│   ├── public        # Holds local files
+│   ├── routes     # Handles routing
+│   │   └── index.js
+│   │   └── photos.js
+│   │   └── users.js
+│   └── utility     # Database environment
+│   |    └── sql.js
 │   ├── views     ## Handles views
-      └── gallery.pug     ###
-      └── head.pug     ###
-      └── home.pug     ###
-      └── login.pug     ###
-      └── nav.pug     ###
-      └── profile.pug     ###
-      └── profilenav.pug     ###
-      └── register.pug     ###
-      └── submit.pug     ###
-      └── upload.pug     ###
+      └── gallery.pug
+      └── head.pug
+      └── home.pug
+      └── login.pug
+      └── nav.pug
+      └── profile.pug
+      └── profilenav.pug
+      └── register.pug
+      └── submit.pug
+      └── upload.pug
 ```
 
 ## Technology Used
