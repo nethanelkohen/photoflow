@@ -137,11 +137,13 @@ router.get('/gallery', authenticationMiddleware(), function(req, res) {
     });
   });
 });
+
 router.get('/upload', authenticationMiddleware(), function(req, res) {
   console.log(req.user);
   console.log(req.isAuthenticated());
   res.render('upload');
 });
+
 router.post('/upload', function(req, res) {
   var upload = multer({
     storage: storage,

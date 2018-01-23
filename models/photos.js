@@ -24,10 +24,6 @@ const Photos = connection.define('photos', {
     type: Sequelize.STRING,
     notNull: true
   },
-  userposted: {
-    type: Sequelize.STRING,
-    notNull: true
-  },
   likes: {
     type: Sequelize.INTEGER,
     notNull: false
