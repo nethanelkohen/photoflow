@@ -22,8 +22,7 @@ var Photos = require('../models/photos.js');
 var SequelizeStore = require('connect-session-sequelize')(session.Store);
 var fs = require('fs');
 aws.config = new aws.Config();
-aws.config.accessKeyId = 'AKIAITDNANPVU3HORDXA';
-aws.config.secretAccessKey = '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';
+
 router.use(require('body-parser')());
 const s3 = new aws.S3({
   /* ... */
