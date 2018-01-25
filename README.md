@@ -151,6 +151,16 @@ $ node server.js
 * [Pug](https://pugjs.org/) is a templating language that lets you markup HTML with JavaScript.
   <br><br>
 
+  <img src="https://i.ytimg.com/vi/XjmwLObtPj8/hqdefault.jpg?sqp=-oaymwEWCKgBEF5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLDp4lD_cRV_Sy-nYELTgFTxnuSS4g" align="center" width="240" height="130" /> <br><br>
+
+* [Amazon S3](https://aws.amazon.com/s3/) is a file storage service built to store and retrieve any amount of data from anywhere.
+  <br><br>
+
+<img src="https://cdn.glitch.com/project-avatar/0d184ee3-fd8d-4b94-acf4-b4e686e57375.png" align="center" width="240" height="130" /> <br><br>
+
+* [Passport](http://www.passportjs.org/) is authentication middleware for Node.js.
+  <br><br>
+
 <img src="https://i.cloudup.com/zfY6lL7eFa-3000x3000.png" align="center" width="210" height="80" /> <br><br>
 
 * [Express](https://expressjs.com/) is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.

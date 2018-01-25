@@ -1,10 +1,12 @@
 var express = require('express');
+const aws = require('aws-sdk'); //Amazon Web Services (to store photos)
 var router = express.Router();
 var Sequelize = require('sequelize');
 var connection = require('../utility/sql.js');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var multer = require('multer');
+const multerS3 = require('multer-s3'); // Multer for AWS s3
 var path = require('path');
 var session = require('express-session');
 var passport = require('passport');
@@ -19,7 +21,26 @@ var User = require('../models/user.js');
 var Photos = require('../models/photos.js');
 var SequelizeStore = require('connect-session-sequelize')(session.Store);
 var fs = require('fs');
+aws.config = new aws.Config();
+aws.config.accessKeyId = 'AKIAJHYLFT5SXPWBDQXA';
+aws.config.secretAccessKey = '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';
 router.use(require('body-parser')());
+const s3 = new aws.S3({
+  /* ... */
+});
+
+let uploadAWS = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'photoflownatelster',
+    metadata: function(req, file, cb) {
+      cb(null, { fieldName: file.fieldname });
+    },
+    key: function(req, file, cb) {
+      cb(null, Date.now().toString());
+    }
+  })
+});
 
 router.use(express.static('public'));
 router.use(
@@ -122,9 +143,10 @@ router.post('/register', function(req, res, next) {
 
 router.get('/gallery', authenticationMiddleware(), function(req, res) {
   // console.log(req.session.passport.user);
-  console.log(`${req.session.passport.user} is logged in`);
+  // console.log(`${req.session.passport.user} is logged in`);
   console.log(req.isAuthenticated());
   Photos.findAll().then(function(photos) {
+    console.log(photos);
     Comments.findAll().then(function(comments) {
       User.findById(req.session.passport.user).then(function(username) {
         // console.log(username.username);
@@ -144,47 +166,27 @@ router.get('/upload', authenticationMiddleware(), function(req, res) {
   res.render('upload');
 });
 
-router.post('/upload', function(req, res) {
-  var upload = multer({
-    storage: storage,
-    fileFilter: function(req, file, callback) {
-      var ext = path.extname(file.originalname);
-      if (
-        ext !== '.png' &&
-        ext !== '.jpg' &&
-        ext !== '.gif' &&
-        ext !== '.jpeg'
-      ) {
-        return callback(res.end('Only images are allowed'), null);
-      }
-      callback(null, true);
-    }
-  }).single('myImage');
-  upload(req, res, function(err) {
-    var descriptionBody = req.body.description;
-
-    User.findById(req.session.passport.user).then(function(userResult) {
-      console.log(userResult.username);
-      var userName = userResult;
-      var fileSize = req.file.size;
-      var originalName = req.file.originalname;
-      var userposted = userResult.username;
-      var mimeType = req.file.mimetype;
-      var fileName = req.file.path;
-      Photos.create({
-        size: fileSize,
-        userposted: userposted,
-        originalName: originalName,
-        userId: req.session.passport.user,
-        mimeType: mimeType,
-        description: descriptionBody,
-        filename: fileName
-      }).then(function(results) {
-        console.log('added ' + results);
-      });
-
-      res.redirect('gallery');
+router.post('/upload', uploadAWS.single('myImage'), function(req, res) {
+  User.findById(req.session.passport.user).then(function(userResult) {
+    console.log(userResult.username);
+    var userName = userResult;
+    var fileSize = req.file.size;
+    var originalName = req.file.originalname;
+    var userposted = userResult.username;
+    var mimeType = req.file.mimetype;
+    var url = req.file.location;
+    Photos.create({
+      size: fileSize,
+      userposted: userposted,
+      originalName: originalName,
+      userId: req.session.passport.user,
+      mimeType: mimeType,
+      description: req.body.description,
+      filename: url
+    }).then(function(results) {
+      console.log('added ' + results);
     });
+    res.redirect('gallery');
   });
 });
 
@@ -193,6 +195,7 @@ router.get('/logout', function(req, res) {
   req.session.destroy();
   res.redirect('/');
 });
+
 router.post('/gallery', function(req, res) {
   var receivedComment = req.body.sendComment;
   var sendpostid = req.body.sendpostid;
