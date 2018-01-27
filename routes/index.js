@@ -168,7 +168,7 @@ router.get('/upload', authenticationMiddleware(), function(req, res) {
 });
 
 router.post('/upload', uploadAWS.single('myImage'), function(req, res) {
-  User.findById(req.session.passport.user.user_id).then(function(userResult) {
+  User.findById(req.session.passport.user).then(function(userResult) {
     var userName = userResult;
     var fileSize = req.file.size;
     var originalName = req.file.originalname;
