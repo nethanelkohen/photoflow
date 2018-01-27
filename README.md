@@ -175,7 +175,7 @@ $ node server.js
 <hr>
 <br>
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Node.js_logo_2015.svg" align="center" width="200" height="100" /> <br><br>
+<img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Node.js_logo_2015.svg" align="center" width="200" height="auto" /> <br><br>
 
 * [Node](https://nodejs.org/en/) is a multi-platform, open-source JavaScript run-time environment that executes code on the server-side.
   <br><br>
