@@ -149,7 +149,7 @@ router.get('/gallery', authenticationMiddleware(), function(req, res) {
   Photos.findAll().then(function(photos) {
     console.log(photos);
     Comments.findAll().then(function(comments) {
-      User.findById(req.session.passport.user.user_id).then(function(username) {
+      User.findById(req.session.passport.user).then(function(username) {
         // console.log(username.username);
         res.render('gallery', {
           databasePost: photos,
@@ -168,7 +168,7 @@ router.get('/upload', authenticationMiddleware(), function(req, res) {
 });
 
 router.post('/upload', uploadAWS.single('myImage'), function(req, res) {
-  User.findById(req.session.passport.user.user_id).then(function(userResult) {
+  User.findById(req.session.passport.user).then(function(userResult) {
     console.log(userResult.username);
     var userName = userResult;
     var fileSize = req.file.size;
