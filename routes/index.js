@@ -87,6 +87,7 @@ router.get('/', function(req, res) {
 router.get('/login', function(req, res) {
   console.log(req.user);
   console.log(req.isAuthenticated());
+  // console.log(req.session.passport.user);
 
   res.render('login', { title: 'Login' });
 });
@@ -147,7 +148,7 @@ router.get('/gallery', authenticationMiddleware(), function(req, res) {
   Photos.findAll().then(function(photos) {
     console.log(photos);
     Comments.findAll().then(function(comments) {
-      User.findById(req.session.passport.user).then(function(username) {
+      User.findById(req.session.passport.user.user_id).then(function(username) {
         // console.log(username.username);
         res.render('gallery', {
           databasePost: photos,
