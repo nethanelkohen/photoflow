@@ -149,14 +149,14 @@ router.get('/gallery', authenticationMiddleware(), function(req, res) {
   Photos.findAll().then(function(photos) {
     console.log(photos);
     Comments.findAll().then(function(comments) {
-      // User.findById(req.session.passport.user).then(function(username) {
-      // console.log(username.username);
-      res.render('gallery', {
-        databasePost: photos,
-        // postusername: username.username,
-        comments: comments
+      User.findById(req.session.passport.user).then(function(username) {
+        // console.log(username.username);
+        res.render('gallery', {
+          databasePost: photos,
+          postusername: username.username,
+          comments: comments
+        });
       });
-      // });
     });
   });
 });
