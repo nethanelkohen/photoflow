@@ -153,7 +153,7 @@ router.get('/gallery', authenticationMiddleware(), function(req, res) {
         // console.log(username.username);
         res.render('gallery', {
           databasePost: photos,
-          postusername: username.username,
+          // postusername: username.username,
           comments: comments
         });
       });
