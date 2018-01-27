@@ -21,6 +21,7 @@ var User = require('../models/user.js');
 var Photos = require('../models/photos.js');
 var SequelizeStore = require('connect-session-sequelize')(session.Store);
 var fs = require('fs');
+
 aws.config = new aws.Config();
 
 router.use(require('body-parser')());
@@ -167,7 +168,7 @@ router.get('/upload', authenticationMiddleware(), function(req, res) {
 });
 
 router.post('/upload', uploadAWS.single('myImage'), function(req, res) {
-  User.findById(req.session.passport.user).then(function(userResult) {
+  User.findById(req.session.passport.user.user_id).then(function(userResult) {
     console.log(userResult.username);
     var userName = userResult;
     var fileSize = req.file.size;
