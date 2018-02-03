@@ -15,7 +15,7 @@ $ node server.js
 
 ## Deployment
 
-[https://whispering-taiga-72375.herokuapp.com/](Heroku)
+[Heroku](https://whispering-taiga-72375.herokuapp.com/)
 
 ## Data Models
 
