@@ -1,3 +1,8 @@
+[![GitHub top language](https://img.shields.io/github/languages/top/nethanelkohen/photoflow.svg?colorB=EFDF70&style=plastic)](https://github.com/nethanelkohen/photoflow)
+[![GitHub issues](https://img.shields.io/github/issues/nethanelkohen/photoflow.svg?&colorB=ff0000&style=plastic)](https://github.com/nethanelkohen/photoflow/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/nethanelkohen/photoflow.svg?colorB=1FBF14&style=plastic)](https://github.com/nethanelkohen/photoflow/pulls)
+[![License (MIT)](https://img.shields.io/github/license/mashape/apistatus.svg?style=plastic)](https://github.com/nethanelkohen/photoflow/blob/master/LICENSE)
+
 <img src="assets/logo.PNG" align="right" alt="PhotoFlow Logo" width="350" height="auto" overflow="hidden" />
 
 # PhotoFlow
@@ -115,32 +120,31 @@ $ node server.js
 ## Project Organization
 
 ```
-├── photoflow    # Source code
-│   ├── server.js         # Main entry point
-│   ├── fonts
-│   ├── assets         # Static assets
-│   ├── models     # Database
-│   │   └── comments.js
-│   │   └── likes.js
-│   │   └── photos.js
-│   │   └── user.js
-│   ├── public        # Holds local files
-│   ├── routes     # Handles routing
-│   │   └── index.js
-│   │   └── photos.js
-│   │   └── users.js
-│   └── utility     # Database environment
-│   |    └── sql.js
-│   ├── views     ## Handles views
-      └── gallery.pug
-      └── head.pug
-      └── home.pug
-      └── login.pug
-      └── nav.pug
-      └── profile.pug
-      └── profilenav.pug
-      └── register.pug
-      └── submit.pug
+    ├── server.js         # Main entry point
+    ├── fonts
+    ├── assets         # Static assets
+    ├── models     # Database
+    │   └── comments.js
+    │   └── likes.js
+    │   └── photos.js
+    │   └── user.js
+    ├── public        # Holds local files
+    ├── routes     # Handles routing
+    │   └── index.js
+    │   └── photos.js
+    │   └── users.js
+    ├── utility     # Database environment
+    │   └── sql.js
+    └── views     ## Handles views
+      ├── gallery.pug
+      ├── head.pug
+      ├── home.pug
+      ├── login.pug
+      ├── nav.pug
+      ├── profile.pug
+      ├── profilenav.pug
+      ├── register.pug
+      ├── submit.pug
       └── upload.pug
 ```
 
