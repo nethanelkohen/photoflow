@@ -9,19 +9,20 @@ head
             div(class="alert alert-danger")= error.msg
       form(method="post" action="/login")
         h3#emailHelp.form-text.text-muted Please Login
+
         br
         .form-group
           h3= message
           label(for="exampleInputEmail1") Username
-          input#exampleInputEmail1.form-control(type="text", name="username", aria-describedby="emailHelp", placeholder="Enter username")
+          input#exampleInputEmail1.form-control(type="text", name="username", aria-describedby="emailHelp", placeholder="Test username: test")
         .form-group
           label(for="exampleInputPassword1") Password
-          input#exampleInputPassword1.form-control(type="password",name="password", placeholder="Password")
+          input#exampleInputPassword1.form-control(type="password",name="password", placeholder="Test password: 1234")
           
 
         button.btn.btn-primary(type="submit") Submit
           
-
+        
           
 
   script(src="/js/main.js")
