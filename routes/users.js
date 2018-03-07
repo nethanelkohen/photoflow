@@ -1,23 +1,23 @@
-var express = require("express");
-var router = express.Router();
-var Sequelize = require("sequelize");
-var connection = require('../utility/sql.js');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var multer = require('multer');
-var path = require('path');
-var session = require('express-session');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+const express = require('express');
+const router = express.Router();
+const Sequelize = require('sequelize');
+const connection = require('../utility/sql.js');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const multer = require('multer');
+const path = require('path');
+const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 // require models
-var Comments = require('../models/comments.js');
-var likes = require('../models/likes.js');
-var Photos = require('../models/photos.js');
-var User = require('../models/user.js');
+const Comments = require('../models/comments.js');
+const likes = require('../models/likes.js');
+const Photos = require('../models/photos.js');
+const User = require('../models/user.js');
 
 // initalize sequelize with session store
-var SequelizeStore = require('connect-session-sequelize')(session.Store);
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 router.get('/', authenticationMiddleware(), function(req, res) {
   console.log(req.user);
@@ -36,7 +36,10 @@ const storage = {
       next(null, './public/uploads');
     },
     filename: function(req, file, cb) {
-      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+      cb(
+        null,
+        file.fieldname + '-' + Date.now() + path.extname(file.originalname)
+      );
     }
   })
 };
@@ -45,7 +48,11 @@ router.get('/upload', function(req, res) {
   res.render('upload');
 });
 
-router.post('/upload', multer(storage).single('myImage'), function(req, res, next) {
+router.post('/upload', multer(storage).single('myImage'), function(
+  req,
+  res,
+  next
+) {
   console.log(req.file);
   console.log(req.body);
   res.redirect('gallery');
@@ -53,11 +60,13 @@ router.post('/upload', multer(storage).single('myImage'), function(req, res, nex
 
 function authenticationMiddleware() {
   return (req, res, next) => {
-    console.log(`req.session.passport.user: ${JSON.stringify(req.session.passport)}`);
+    console.log(
+      `req.session.passport.user: ${JSON.stringify(req.session.passport)}`
+    );
 
     if (req.isAuthenticated()) return next();
-    res.redirect('/login')
-  }
+    res.redirect('/login');
+  };
 }
 
 module.exports = router;

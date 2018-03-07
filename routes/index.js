@@ -1,26 +1,25 @@
-var express = require('express');
+const express = require('express');
 const aws = require('aws-sdk'); //Amazon Web Services (to store photos)
-var router = express.Router();
-var Sequelize = require('sequelize');
-var connection = require('../utility/sql.js');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var multer = require('multer');
+const router = express.Router();
+const Sequelize = require('sequelize');
+const connection = require('../utility/sql.js');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const multer = require('multer');
 const multerS3 = require('multer-s3'); // Multer for AWS s3
-var path = require('path');
-var session = require('express-session');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var expressValidator = require('express-validator');
-var bcrypt = require('bcrypt');
-const saltRounds = 10;
-var Comments = require('../models/comments.js');
-var likes = require('../models/likes.js');
-var photos = require('../models/photos.js');
-var User = require('../models/user.js');
-var Photos = require('../models/photos.js');
-var SequelizeStore = require('connect-session-sequelize')(session.Store);
-var fs = require('fs');
+const path = require('path');
+const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const expressValidator = require('express-validator');
+const bcrypt = require('bcrypt');
+const Comments = require('../models/comments.js');
+const likes = require('../models/likes.js');
+const photos = require('../models/photos.js');
+const User = require('../models/user.js');
+const Photos = require('../models/photos.js');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const fs = require('fs');
 
 aws.config = new aws.Config();
 
@@ -122,6 +121,7 @@ router.post('/register', function(req, res, next) {
   } else {
     const userName = req.body.username;
     const passWord = req.body.password;
+    let saltRounds = 10;
     var hash = bcrypt.hashSync(passWord, saltRounds);
     User.create({
       username: userName,
@@ -201,10 +201,10 @@ router.post('/gallery', function(req, res) {
   var sendpostid = req.body.sendpostid;
   console.log(receivedComment);
   console.log(sendpostid);
-  User.findById(req.session.passport.user).then(function(currUsername) {
+  User.findById(req.user.user_id).then(function(currUsername) {
     console.log(currUsername);
     Comments.create({
-      userId: req.session.passport.user,
+      userId: req.user.user_id,
       comment: receivedComment,
       usercommented: currUsername.username,
       photoId: sendpostid
