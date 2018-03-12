@@ -11,7 +11,7 @@ A full stack Instagram clone created by [Lester Loor](https://github.com/lesterl
 
 <br>
 
-<img src="./assets/PhotoFlow_demo.gif" width="900" height="auto" />
+<img src="./assets/PhotoFlow_demo.gif" width="750" height="auto" />
 
 <br>
 
