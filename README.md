@@ -20,8 +20,7 @@ A full stack Instagram clone created by [Lester Loor](https://github.com/lesterl
 ```bash
 $ git clone https://github.com/nethanelkohen/photoflow
 $ cd photoflow
-$ npm install
-$ node server.js
+$ npm install && npm start
 ```
 
 ## Deployment
