@@ -9,6 +9,12 @@
 
 A full stack Instagram clone created by [Lester Loor](https://github.com/lesterloor) and [Nethanel Kohen](https://github.com/nethanelkohen).
 
+<br>
+
+<img src="./assets/PhotoFlow_demo.gif" width="350" height="auto" />
+
+<br>
+
 ## Getting Started
 
 ```bash
