@@ -194,9 +194,9 @@ $ npm install && npm start
 * [PostgreSQL](https://www.postgresql.org/) is a powerful, open source object-relational database system.
   <br><br>
 
-<img src="https://techforstartup.com/wp-content/uploads/2017/04/sequelize.png" align="center" width="200" height="auto" /> <br><br>
+<img src="https://cdn.worldvectorlogo.com/logos/sequelize.svg" align="center" width="200" height="auto" /> <br><br>
 
-* [PostgreSQL](http://docs.sequelizejs.com/) is a promise-based ORM for Node.js v4 and up. It supports the dialects PostgreSQL, MySQL, SQLite and MSSQL and features solid transaction support, relations, read replication and more.
+* [Sequelize](http://docs.sequelizejs.com/) is a promise-based ORM for Node.js v4 and up. It supports the dialects PostgreSQL, MySQL, SQLite and MSSQL and features solid transaction support, relations, read replication and more.
   <br><br>
 
 ## Credits
